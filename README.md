@@ -6,7 +6,7 @@ A Claude Project and on-shift web app for a fictional hotel, built as a case stu
 
 This repository is a demonstration pack. **The Lakeside Hotel is not a real venue.** The procedures are written in the style of internal hotel documents so the Project can be demonstrated honestly, not as a claim about a live client.
 
-Live app (once GitHub Pages is enabled): this repo's `index.html`.
+Live app: [https://mattharmer.github.io/lakeside-shift-assistant/](https://mattharmer.github.io/lakeside-shift-assistant/) (GitHub Pages, `main` branch, site root).
 
 ---
 
@@ -61,6 +61,8 @@ The full text is in `docs/00-Custom-Instructions.md`.
 
 Word copies of documents 01–06 are in the same folder.
 
+Documents 07–16 (quiz and sign-off, unanswered-questions log, incident draft template, review replies, handover, stock and ordering, weekly sales summary, other-language answers, screen promos, and QR access) were added in the Venue Ops Assistant Claude Project. They are not in this `docs/` folder yet. The v2 on-shift app already has screens for that material.
+
 ## Test questions
 
 These are the questions I use to show the Project working, and to catch invented steps before a demo:
@@ -75,18 +77,35 @@ If an answer invents a step that is not in the documents, tighten the custom ins
 
 ## The on-shift app
 
-[`index.html`](index.html) is a single-file app (React 18 and Babel from a CDN, plus Google Fonts). It runs in a browser and keeps a little state in `localStorage`. There are no API keys and no backend.
+[`index.html`](index.html) is a single-file **v2** app (React 18.3.1 and Babel Standalone 7.24.7 from [cdnjs](https://cdnjs.cloudflare.com/), no Google Fonts). It runs in a browser, defaults to dark mode (the toggle is saved in `localStorage`), and keeps checklist and draft state in `localStorage`. There are no API keys and no backend. The previous single-file app is kept as [`index-v1.html`](index-v1.html).
 
 It includes:
 
-- Opening and closing checklists
+- A mobile-first home dashboard with today's date, a shift chip, checklist progress and open incident drafts
+- Dark and light mode
+- Bottom navigation (Checklists, Fix It, Incident, Cocktails, Quiz, More)
+- Nine opening and closing checklists with progress bars, strike-through ticks, and a confirmed reset for the next shift
 - Step-by-step POS / network / AV fixes, with a clear stop if a password, ladder or rack access is needed
-- An incident-log helper that reminds staff to get the Duty Manager
-- House cocktail specs
+- An incident-report draft, with a "Draft – Duty Manager to sign" print watermark
+- House cocktail specs (the full ten from Document 03)
+- A training quiz
+- A gap log for questions the assistant could not answer
+- Shift handover drafts
+- A stock count
+- Screen promo scripts
+- Quick Access hash links, such as `#closing-bar` and `#eftpos`, listed so they can be printed as QR codes
+- A Help screen with a language note
+
+**Known limits** (kept to stay inside a lean build):
+
+- Quiz answers show the correct option but not the document section citation
+- There is no RSA refusal-wording or ID-check screen; the app points staff to Document 02 and the Duty Manager (ext. 201)
+- Incident and handover print views use the browser print dialog; page breaks have not been tuned
+- Checklist and fix-it wording is a shortened form of Documents 01 and 04, not word for word
 
 **To try it locally:** from this folder, run `python3 -m http.server 8080` and open http://localhost:8080/. It needs a network connection for the CDN scripts. Opening the file directly (`file://`) can fail in some browsers.
 
-**GitHub Pages:** enable Pages on the `main` branch, root folder. The empty `.nojekyll` file is there so Pages serves the site as-is.
+**GitHub Pages:** already enabled on this repository (site root). The empty `.nojekyll` file is there so Pages serves the site as-is. The live app updates when `index.html` is merged to `main`.
 
 ## Results
 

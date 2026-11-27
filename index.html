@@ -1,340 +1,162 @@
 <!DOCTYPE html>
-<html lang="en-AU">
+<html lang="en-AU" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Lakeside Shift Assistant</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lakeside Hotel – On Shift</title>
 <style>
-:root{--navy:#0a1630;--panel:#122247;--panel2:#1a2e5c;--line:#2a4078;--gold:#d9aa48;--goldd:#a8812c;--text:#eef1f8;--mut:#a9b5d1;--ok:#5fcf8f;--bad:#ff8a7a;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{--bg:#f2f7f7;--cd:#fff;--tx:#10262b;--mu:#46606a;--ac:#0f766e;--ax:#fff;--bd:#c5d5d8;--ok:#14532d;--okb:#dcfce7;--dm:#78350f;--dmb:#fef3c7;--sos:#7f1d1d;--sosb:#fee2e2}
+[data-theme=dark]{--bg:#0b1517;--cd:#13262a;--tx:#e9f3f4;--mu:#a6bdc1;--ac:#2dd4bf;--ax:#042f2e;--bd:#2b4348;--ok:#86efac;--okb:#12301d;--dm:#fcd34d;--dmb:#3b2a08;--sos:#fca5a5;--sosb:#471313}
 *{box-sizing:border-box}
-body{margin:0;background:var(--navy);color:var(--text);font:17px/1.45 "Source Sans 3",system-ui,sans-serif}
-h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0}
-.wrap{max-width:760px;margin:0 auto;padding:14px 14px 30px}
-header{padding:6px 2px 12px}
-header h1{font-size:26px;color:var(--gold)}
-header p{margin:2px 0 0;color:var(--mut);font-size:15px}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--navy);padding:6px 0;z-index:5}
-.tabs button{min-height:56px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:10px;font:600 15px "Source Sans 3",sans-serif;cursor:pointer;padding:4px}
-.tabs button.on{background:var(--gold);color:#1a1405;border-color:var(--gold)}
-button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;margin:12px 0}
-.card h3{font-size:19px;color:var(--gold);margin-bottom:8px}
-.seg{display:flex;gap:8px;margin:12px 0}
-.btn{min-height:54px;padding:10px 16px;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:700 17px "Source Sans 3",sans-serif;cursor:pointer;text-align:left}
-.btn.gold{background:var(--gold);color:#1a1405;border-color:var(--gold)}
-.btn.ghost{background:transparent}
-.seg .btn{flex:1;text-align:center}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
-.grid2 .btn{min-height:72px;text-align:center}
-.bar{height:16px;background:var(--panel);border:1px solid var(--line);border-radius:99px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--gold);transition:width .25s}
-.pl{display:flex;justify-content:space-between;color:var(--mut);margin:6px 0 4px;font-weight:600}
-.item{display:flex;gap:12px;align-items:flex-start;padding:12px 4px;border-top:1px solid var(--line);cursor:pointer;min-height:54px}
-.item:first-of-type{border-top:0}
-.item input{width:28px;height:28px;accent-color:var(--gold);flex:none;margin-top:1px}
-.item.done span{color:var(--mut);text-decoration:line-through}
-.note{color:var(--mut);font-size:15px;margin:0 0 6px}
-.big{font-size:21px;font-weight:600;margin:6px 0 14px}
-.call{border:2px solid var(--gold);background:#1c2a52;border-radius:12px;padding:14px;margin:12px 0}
-.call b{color:var(--gold)}
-.good{border:2px solid var(--ok);border-radius:12px;padding:14px;margin:12px 0;background:#10301f}
-.alert{border:2px solid var(--bad);border-radius:12px;padding:12px 14px;margin:12px 0;background:#3a1a22}
-ol,ul{margin:6px 0;padding-left:24px}
-li{margin:7px 0}
-.say{border-left:4px solid var(--gold);padding:4px 12px;margin:10px 0;font-style:italic;color:#fff}
-label.f{display:block;font-weight:600;margin:12px 0 4px}
-input[type=text],input[type=search],input[type=datetime-local],textarea,select{width:100%;min-height:50px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--navy);color:var(--text);font:17px "Source Sans 3",sans-serif}
-textarea{min-height:90px}
-.sum{white-space:pre-wrap;background:var(--navy);border:1px dashed var(--goldd);border-radius:10px;padding:12px;font-size:16px;margin:10px 0}
-.tag{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:1px 8px;margin:0 6px 4px 0;font-size:14px;color:var(--mut)}
-.k{color:var(--gold);font-weight:700}
-footer{margin-top:24px;text-align:center;color:var(--mut);font-size:14px}
-@media(max-width:520px){.tabs{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:88px}
+main{max-width:640px;margin:0 auto;padding:12px 14px}
+header{position:sticky;top:0;z-index:5;background:var(--cd);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:6px 14px}
+.w{font-size:20px;font-weight:700;color:var(--ac);text-decoration:none;display:flex;gap:8px;align-items:center;min-height:48px}.w small{font-weight:400;color:var(--mu);font-size:16px}
+h1{font-size:22px;margin:8px 0 12px}h2{font-size:18px;margin:16px 0 8px}
+.c{background:var(--cd);border:1px solid var(--bd);border-radius:16px;padding:14px;margin:0 0 12px;box-shadow:0 2px 8px rgba(0,0,0,.14)}
+button,.b{min-height:48px;padding:0 16px;border-radius:12px;border:2px solid var(--ac);background:var(--ac);color:var(--ax);font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;transition:background .15s}
+.g{background:transparent;color:var(--ac)}.full{width:100%}
+a{color:var(--ac)}:focus-visible{outline:3px solid var(--dm);outline-offset:2px}
+input,select,textarea{width:100%;min-height:48px;font:inherit;padding:8px 10px;border-radius:10px;border:2px solid var(--bd);background:var(--bg);color:var(--tx)}textarea{min-height:96px}
+label.f{display:block;margin:10px 0 4px;font-weight:600}
+.chip{display:inline-flex;gap:4px;align-items:center;border-radius:99px;padding:2px 10px;font-size:14px;font-weight:700;margin:0 4px 2px 0;border:1px solid var(--bd)}
+.chip.ok{background:var(--okb);color:var(--ok)}.chip.dm{background:var(--dmb);color:var(--dm)}.chip.sos{background:var(--sosb);color:var(--sos)}
+.ban{border-radius:14px;padding:12px;margin:0 0 12px;font-weight:600;border-left:8px solid}.ban.sos{background:var(--sosb);color:var(--sos);border-color:var(--sos)}.ban.dm{background:var(--dmb);color:var(--dm);border-color:var(--dm)}
+.row{display:flex;gap:12px;align-items:center;min-height:56px;padding:8px 4px;border-bottom:1px solid var(--bd);cursor:pointer}.row input{width:28px;min-height:28px;height:28px;flex:none;accent-color:var(--ac)}.done span{text-decoration:line-through;color:var(--mu)}
+.bar{height:12px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);transition:width .3s}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}.t{min-height:76px;flex-direction:column;background:var(--cd);color:var(--tx);border-color:var(--bd);box-shadow:0 2px 8px rgba(0,0,0,.14)}.t span{font-size:26px}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:6;display:flex;background:var(--cd);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom)}
+nav a{flex:1;min-height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:12px;text-decoration:none;color:var(--mu);gap:2px}nav a span{font-size:22px}nav a[aria-current]{color:var(--ac);font-weight:700;box-shadow:inset 0 3px 0 var(--ac)}
+table{width:100%;border-collapse:collapse;font-size:15px}td,th{border-bottom:1px solid var(--bd);padding:6px 4px;text-align:left;vertical-align:top}
+details summary{min-height:48px;display:flex;align-items:center;font-weight:600;cursor:pointer}
+.wm{display:none;position:fixed;inset:0;place-items:center;pointer-events:none;font-size:44px;font-weight:800;color:rgba(160,0,0,.18);transform:rotate(-30deg);text-align:center}.pv .wm{display:grid}
+small{color:var(--mu)}
+@media print{header,nav,.np{display:none!important}body{background:#fff}.pv *{color:#000!important;background:#fff!important}.pv .wm{color:rgba(160,0,0,.18)!important}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
 <script type="text/babel">
-const {useState,useEffect,useMemo}=React;
-const DM="Check with Duty Manager (ext. 201)";
+const {useState,useEffect}=React;
+const useLS=(k,d)=>{const[v,s]=useState(()=>{try{const x=localStorage.getItem(k);return x?JSON.parse(x):d}catch(e){return d}});useEffect(()=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},[v]);return[v,s]};
+const csv=(n,rows)=>{const t=rows.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download=n;a.click()};
+const ICON={ok:'✔',dm:'⚠️',sos:'🚨'};
+const S=({k,children})=><span className={'chip '+k}><span aria-hidden="true">{ICON[k]}</span> {children}</span>;
+const Step=({t})=>{const k=t[0]=='!'?'dm':t[0]=='#'?'sos':null;return <>{k&&<S k={k}>{k=='dm'?'Duty Manager':'Call 000'}</S>} {k?t.slice(1).trim():t}</>};
+const Bar=({k,n})=>{const p=n?Math.round(k/n*100):0;return <div><div className="bar" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow={p}><i style={{width:p+'%'}}/></div><small>{k} of {n} done</small> {k==n&&n>0&&<S k="ok">Complete</S>}</div>};
+const Src=({t})=><p><small>Source: {t}</small></p>;
+const today=()=>new Date().toISOString().slice(0,10);
 
-function useStored(key,init){
-  const [v,setV]=useState(()=>{try{const s=localStorage.getItem(key);return s?JSON.parse(s):init}catch(e){return init}});
-  useEffect(()=>{try{localStorage.setItem(key,JSON.stringify(v))}catch(e){}},[key,v]);
-  return [v,setV];
-}
+/* ---- DATA (from Documents 01–07) ---- */
+const CL=[
+["opening-dm","Open: Duty Manager",["! Disarm alarm. If it will not disarm or has triggered, stay outside and call the security contractor","Walk the whole venue: damage, leaks, unsecured doors","Fire exits clear, exit lights on","First-aid kit and spill kit in place","Open safe, set till floats from the float sheet","Power on POS, printers, EFTPOS; confirm online","Check bookings, function sheet, last close notes","Brief team: 86'd items, banned or caution patrons","Unlock public doors at advertised time, not before"]],
+["opening-bar","Open: Bar",["Wash hands, clean uniform, name badge","Check levels and restock","! Tell Duty Manager if a line or product is out","Run beer lines if due; check first pours","Garnishes, ice wells, glassware set up","Glasswasher salt, rinse aid, clean cycle","Wipe bar, tables, beer garden","RSA signage up; incident register in office","Count float (second person if possible), sign float sheet","Test POS and EFTPOS","! Tell Duty Manager the bar is ready"]],
+["opening-kitchen","Open: Kitchen",["Chef unlocks kitchen and cool rooms","Record cool-room and freezer temps","! Temp out of range: tell Duty Manager, do not use unsafe stock","Read last night's handover notes","Confirm cleaning was done","Start equipment in order; never leave fryers unattended","Test docket from POS to kitchen printer","Prep to daily list and function sheet","Brief: specials, 86'd, allergens, bookings","! Tell Duty Manager kitchen is ready"]],
+["opening-gaming","Open: Gaming room",["Only with current RCG, under the Duty Manager","Unlock; lights and air-conditioning on","Entry, responsible gambling signs and clocks visible","Power on machines; wait for them to come online","Walk each machine: no errors, note acceptors clear","Cash-box secure; no keys left in machines","! Confirm float and payout process with Duty Manager","Self-exclusion folder in office; do not discuss exclusions with patrons","Machine faulty: out-of-order sign, note number, tell Duty Manager","! Tell Duty Manager gaming room is open"]],
+["closing-bar","Close: Bar and floor",["Last drinks called 15 minutes before close","Finish tabs; no liquor after licensed hours","Wash and put away glassware; clean ice wells, soda guns, mats","Restock fridges; rotate stock","Glasswasher empty cycle, off, door ajar","Clean amenities, dining room, beer garden, bar floor","Lost property tagged, left in office","Check beer garden, car park entry and amenities for patrons","Count stock if asked (Document 12)"]],
+["closing-kitchen","Close: Kitchen",["Confirm last food orders with Duty Manager","Finish tickets; printer stays on until Duty Manager confirms none pending","Cool, cover, label and date leftovers; record discards","Break down and clean the line","Cooking equipment off in shutdown order","Record cool-room and freezer temps","Bins out; dock door not left open","Write handover: 86'd, faults, prep, incidents","! Hand notes to Duty Manager in person","! Duty Manager or Head Chef checks and locks kitchen"]],
+["closing-gaming","Close: Gaming room",["Announce closing; ask patrons to leave politely","! Disputed payouts only with Duty Manager","Walk all machines when empty; note errors","Machines per posted close procedure","! Cash-box keys and float to Duty Manager","Record gambling incidents in gambling register","Lights and air-con off; lock room; return keys","! Tell Duty Manager gaming room is secured"]],
+["cash-up","Cash-up and tills",["Close floor to new sales; transfer open tabs","Run Z-report on every till","Take drawer to office; never count on the bar","Count, separate float, bag takings, fill cash-up sheet","! Unexplained variance: recount once, tell Duty Manager","Record comps, staff meals, walkouts with dockets","Takings and float in safe; Duty Manager confirms locked","Sign cash-up sheet; Duty Manager countersigns"]],
+["lock-up","Security lock-up and alarm",["Confirm all patrons gone: amenities, garden, gaming, corners","Check windows, fire exits, dock doors, main entry","Non-essential lights, heaters, music off","Leave CCTV recorder running","Lock office, stores, gaming room, kitchen","Final walk: bins, taps, appliances","Verbal headcount; nobody locked inside","Set alarm from office; leave by staff door","! Alarm will not arm: find the zone or call security; stay on site","! Duty Manager completes end-of-night report"]]];
+const FX={
+eftpos:["EFTPOS will not connect",["Power on, screen lit, cables seated","Paper in and cover closed","Check last receipt or POS: did it already go through? Do not retry (double-charge risk)","Restart that terminal only: off, wait 30 seconds, on, one test","Try another terminal","! All terminals down: Duty Manager decides cash-only or backup terminal","Never write card numbers on paper or phone"],"all payments down, possible double charge, card trapped"],
+pos:["POS frozen or offline",["Stop tapping; wait 20–30 seconds","Payment mid-way? Do not pull power; note table and amount","Restart that POS only: sign out, off 30 seconds, on","Test a sale; use another POS if needed","Write down sales that may not have saved; do not re-key unless Duty Manager confirms","! More than one POS down: treat as network fault"],"more than one POS down, sale missing or duplicated, kitchen tickets stopped"],
+printer:["Receipt printer not printing",["Power and power point on","Paper loaded right way, lid closed","Jam: off, clear gently (no knife), reload","Check cable; confirm selected printer on POS","Restart, then reprint last receipt","No fix: handwritten receipt, note the sale","! Tell Duty Manager; do not resend print jobs in a loop"],"printer cannot be fixed in a few minutes"],
+"kitchen-printer":["Kitchen not getting orders",["Phone kitchen ext. 202: tickets may be missing","Check power, paper, lid, jam; printer online","Test docket only if Duty Manager agrees","One POS failing: restart that POS","! No POS reaches kitchen: Duty Manager (printer or network fault)","Meanwhile hand-carry numbered dockets to the pass","Do not resend old tickets unless the kitchen asks"],"food service delayed, function on, tickets lost"],
+network:["Wi-Fi or network down",["Work out what is down: EFTPOS, POS, kitchen, Wi-Fi or all","Look at office cabinet lights; do not unplug anything","Warn floor and kitchen of delays","! Only the Duty Manager restarts network gear","Duty Manager order: switch, router, modem OFF; wait 60 seconds; modem, router, switch ON (2 min, 2 min, 1 min)","Test: one POS login, one EFTPOS, one kitchen docket","Backup: cash-only if cards down, walked tickets, note every sale"],"network restart needed; Duty Manager calls IT from the office list"],
+tv:["TV or AV: no signal",["Power and standby","Check input (HDMI 1, 2, AV)","Set-top box on? Restart if frozen","Check HDMI cable ends; no climbing on furniture","No sound: TV mute, volume, amp routing","! Several screens down, ladder or AV cupboard needed: Duty Manager","! Screen used for statutory or gaming signage: tell Duty Manager straight away"],"several screens down, race or function on"],
+music:["Music system",["Check mute and zone volume","Check source; restart player only","One zone dead: zone control, speaker isolator","Do not exceed house volume, especially beer garden","! No fix in a few minutes: Duty Manager; leave system quiet"],"fault lasts more than a few minutes"]};
+const CO=[
+["Margarita","Coupe, or rocks (ask)","Cubed ice, shaken","50 ml blanco tequila · 25 ml triple sec · 25 ml lime juice · 10 ml sugar syrup only if lime very sharp","Salt half rim only if asked. Shake hard, fine-strain (over fresh ice if rocks)","Lime wheel or wedge","Fresh lime, classic","tequila, triple sec, lime"],
+["Espresso Martini","Coupe","Cubed ice, shake only","50 ml vodka · 25 ml coffee liqueur · 30 ml fresh espresso · 10 ml sugar syrup","Shake very hard, fine-strain; thick crema","3 coffee beans","Wake up your evening","vodka, coffee liqueur, espresso"],
+["Mojito","Highball","Crushed ice","50 ml white rum · 25 ml lime juice · 15 ml sugar syrup · 8–10 mint leaves · soda to top","Press mint, lime, syrup gently. Add rum, crushed ice, churn, top with soda","Mint sprig and lime wedge","Cool and minty","white rum, lime, mint"],
+["Negroni","Rocks","One large cube","30 ml gin · 30 ml Campari · 30 ml sweet vermouth","Stir with ice until cold, strain over fresh ice","Orange peel, oils expressed","Bitter, bold, balanced","gin, Campari, sweet vermouth"],
+["Old Fashioned","Rocks","One large cube","60 ml bourbon or rye · 10 ml sugar syrup or 1 sugar cube · 2 dashes Angostura","Stir until cold and slightly diluted, strain over large cube","Orange peel; cherry optional","Slow and smooth","bourbon or rye, sugar, bitters"],
+["Aperol Spritz","Wine glass","Cubed ice, built","90 ml prosecco · 60 ml Aperol · 30 ml soda","Ice, prosecco, Aperol, soda; stir once gently","Orange slice","Light and bright","prosecco, Aperol, soda"],
+["Cosmopolitan","Coupe","Cubed ice, shake only","45 ml citrus vodka · 15 ml triple sec · 30 ml cranberry juice · 15 ml lime juice","Shake hard, fine-strain","Orange peel or lime wheel","City-night classic","citrus vodka, cranberry, lime"],
+["Daiquiri","Coupe","Cubed ice, shake only","60 ml white rum · 25 ml lime juice · 15 ml sugar syrup","Shake hard, fine-strain","Lime wheel (optional)","Simple, sharp, perfect","white rum, lime, sugar syrup"],
+["Whisky Sour","Rocks, or coupe if up","Cubed ice","50 ml bourbon or rye · 25 ml lemon juice · 15 ml sugar syrup · 15 ml egg white (ask guest) · 2 dashes bitters optional","Ask about egg; if yes dry-shake first, then shake with ice. Note egg on ticket","Lemon wheel and/or cherry","Sweet, sour, smooth","bourbon or rye, lemon, sugar syrup"],
+["Piña Colada","Hurricane or large highball","Blended (shaken if blender down)","50 ml white rum · 75 ml pineapple juice · 50 ml coconut cream · 10 ml lime juice","Blend with a scoop of ice until smooth","Pineapple wedge, cherry, straw","Holiday in a glass","white rum, pineapple juice, coconut cream"]];
+const QZ=[
+["Document 01 – Opening and Closing",[["Who is issued the keys and alarm fob?",["Any opening staff","Duty Manager on shift only","Bar Supervisor","Head Chef"],1],["Alarm triggered or will not disarm on arrival?",["Enter quietly","Retry the code","Stay outside, call the security contractor","Wait and go in together"],2],["Last drinks are called how long before close?",["5 min","10 min","15 min","30 min"],2],["Where is cash counted?",["On the bar","Office, not on the bar in view","Beer garden","Host stand"],1],["Never do what while fryers heat up?",["Turn on pass lights","Check the cool room","Leave them unattended","Read notes"],2]]],
+["Document 02 – RSA and Incidents",[["Intoxicated: noticeably affected and…",["Over two drinks","Reasonable to believe it is from drinking liquor","They are loud","Friends are drunk"],1],["NOT acceptable evidence of age?",["NSW driver licence","Passport","Student card","NSW photo card"],2],["Incident recorded within…",["End of week","As soon as practicable, within 24 hours","Only if police attend","7 days"],1],["Section 77: must not re-enter within…",["1 hour","6 hours","12 hours","24 hours"],3],["Venue rule on force?",["Staff carry them out","Hold their arm","No force; only police or security under Duty Manager direction","Bartender decides"],2]]],
+["Document 03 – Cocktail Spec Sheet",[["Blanco tequila in a Margarita?",["30 ml","45 ml","50 ml","60 ml"],2],["Whisky Sour and egg white?",["Always add","Never offer","Ask the guest and tell them it contains egg","Regulars only"],2],["Negroni spec?",["30 gin, 30 Campari, 30 sweet vermouth","60/15/15","45/30/15","30/60/30"],0],["Aperol Spritz build order?",["Aperol, soda, prosecco, ice","Ice, prosecco, Aperol, soda","Ice, soda, Aperol, prosecco","Prosecco, ice, soda, Aperol"],1],["Unsure of a spec?",["Free-pour","Invent a twist","Re-read, re-measure, ask Bar Supervisor or Duty Manager","Swap the spirit"],2]]],
+["Document 04 – POS, Network, AV",[["Who restarts network gear?",["Any bartender","Duty Manager only","Kitchen","Whoever notices"],1],["Card payments down: card numbers on paper?",["Yes, shred later","Yes, order pad","No; Duty Manager decides backup or cash only","Yes, on phone"],2],["Orders not printing in kitchen: first step?",["Restart router","Phone kitchen ext. 202","Resend old tickets","Wait"],1],["POS frozen, no payment in progress: first?",["Pull the power","Tap repeatedly","Stop tapping, wait 20–30 seconds","Reboot network"],2],["Needs Duty Manager straight away?",["TV wrong input","All EFTPOS down","One printer out of paper","Music zone quiet"],1]]],
+["Document 05 – New Starter Induction",[["Arrive for first shift…",["On the dot","5 min early","15 min early","1 hour early"],2],["Return to food handling after vomiting or diarrhoea?",["Next day","After 12 hours","48 hours symptom-free, or as Duty Manager and food-safety rules require","When better"],2],["Who can authorise a comp?",["Any bartender","Your buddy","Duty Manager or higher (Doc 06)","The guest"],2],["Phone on shift?",["Pocket, silent","On the bar","Bag or staff-room pigeonhole","Till"],2],["Fire assembly point?",["Front car park","Beer garden","Staff car park","Street"],2]]],
+["Document 06 – Complaints",[["LAST stands for…",["Listen, Apologise, Solve, Thank","Look, Ask, Settle, Tell","Listen, Argue, Solve, Tip","Learn, Apologise, Stop, Thank"],0],["Duty Manager comp limit per account?",["$20","$50","$100","Any amount"],1],["Staff without asking may…",["Take an item off the bill","Comp alcohol","Remake a drink or replace a clearly wrong item","Give 20% off"],2],["Needs Duty Manager immediately?",["Cold chip","Food-borne illness complaint","Slow drink","Noisy table"],1],["Do not say when apologising…",["Sorry, not up to standard","Let me fix this","Anything admitting legal liability","Thanks for telling us"],2]]]];
+const INC=[["People and basics",[["date","Date"],["time","Time (start and end)"],["loc","Location (bar, beer garden, gaming room, car park, other)"],["type","Type (refusal, eviction, violence, injury, medical, minor, suspected drug, spiking report, complaint, other)"],["staff","Staff member making entry (role and name)"],["ppl","People involved: describe what you saw, do not guess names or ages","a"],["wit","Witnesses (descriptions or staff roles)","a"]]],
+["What happened",[["what","What happened, in order","a"],["said","What was said: words used, by whom, to whom","a"],["act","Actions taken (refusal, request to leave, water or transport offered, first aid, who was told)","a"]]],
+["Police, security and CCTV",[["k000","000 called","y"],["pol","Police called or attended","y"],["sec","Security rostered or called","y"],["amb","Ambulance attended","y"],["cctv","CCTV reference (camera, time range)"],["inj","Injuries or first aid"],["dmg","Property damage"],["out","Outcome"],["next","Next shift must know (e.g. not to re-admit within 24 hours)","a"]]]];
+const HO=[["Handover",[["date","Date"],["shift","Shift (open / mid / close)"],["dm","Duty Manager"],["hrs","Trading hours used"],["trade","Trade (quiet / average / busy)"],["on","Who's on (names, areas, start and finish)","a"],["new","Who's new, and buddy (new starters need a buddy)","a"],["gaps","Gaps (role or time) and cover","a"],["inc","Incidents and open items (with register entry numbers)","a"],["fault","Equipment faults and what was tried (Document 04 section)","a"],["stock","Stock run-outs and 86'd items","a"],["vip","Bookings, functions, VIP and allergen notes","a"],["act","Actions for next shift (3 to 5)","a"]]]];
 
-/* ---------- Doc 01 ---------- */
-const CL={
-open:[
-{t:"Duty Manager",items:["Arrive 30–45 min before doors. Disarm alarm. If it won’t disarm, stay outside and call the security contractor","Lights and computers on. Walk the whole venue for damage, leaks, unsecured doors","Fire exits clear, exit lights on. First-aid kit and spill kit in place","Open safe, prepare till floats as per the float sheet","Power on POS, receipt and kitchen printers, EFTPOS. Confirm each is online","Check bookings diary, function sheet, last night’s notes","Brief the team: bookings, 86’d items, maintenance, banned or caution patrons","Unlock public doors at the advertised opening time, not before"]},
-{t:"Bar",items:["Clean uniform and name badge. Wash hands","Check and restock beer, wine, spirits, softs. Tell the Duty Manager if anything is out","Run beer lines if due on the line-clean schedule. Check first pours","Cut garnishes, fill ice wells, set up glassware and cocktail mise en place","Glasswasher has salt and rinse aid, running a clean cycle","Wipe and set bar tops, stools, tables, beer garden","RSA signage displayed. Incident register is in the office","Count bar float (second person if possible), sign the sheet, load the till","Confirm POS and EFTPOS work. Tell the Duty Manager the bar is ready"]},
-{t:"Gaming room (current RCG only, under the Duty Manager)",items:["Unlock room. Lights and air-conditioning on","Entry, responsible gambling signage and clocks visible","Power on machines and monitoring connection","Walk each machine: no error lights, screens on, note acceptors clear","Cash-box area secure. No keys left in machines","Confirm gaming float and payout process with the Duty Manager","Self-exclusion folder in the office. Never discuss an exclusion with patrons","Gambling incident register available. Open only when the floor is supervised","Tell the Duty Manager the gaming room is open"]},
-{t:"Kitchen",items:["Head Chef or Kitchen Supervisor unlocks kitchen and cool rooms","Record cool-room and freezer temps on the food-safety sheet. Out of range: tell the Duty Manager, don’t use unsafe stock","Read last night’s handover notes","Confirm cleaning was done. If not, no prep until the Duty Manager and Head Chef agree a plan","Start equipment in order. Never leave fryers unattended during heat-up","Set up pass and printer. Confirm a test docket arrives from POS","Prep to the daily prep list and function sheet. Brief team on specials, 86’d items, allergens","Hand-wash stations stocked. Tell the Duty Manager the kitchen is ready"]}
-],
-close:[
-{t:"Kitchen handover",items:["Confirm food last-orders time with the Duty Manager","Finish tickets. Printer stays on until the Duty Manager confirms none pending","Cool, cover, label and date leftovers. Record discards","Break down pass and cook line. Complete the close-down list","Shut down cooking equipment in order. Fryers left safe","Record cool-room and freezer temps again. Doors latched","Rubbish and recycling out. Dock door not left open","Write handover notes and give them to the Duty Manager in person","Last kitchen staff leave only after the kitchen is checked and locked"]},
-{t:"Bar and floor",items:["Last drinks called 15 min before close, per the licence. No liquor after licensed hours","Finish outstanding tabs","Clear and wash glassware. Clean ice wells, soda guns, pour mats. Wipe surfaces","Restock fridges and rotate stock","Glasswasher empty cycle, off, door ajar","Clean amenities, dining room, beer garden, bar floor","Lost property tagged with date and place, left in the office","Check beer garden, car park entry and amenities for remaining patrons"]},
-{t:"Gaming room",items:["Announce closing clearly. Politely ask patrons to leave","Don’t pay disputed amounts without the Duty Manager","When empty, walk all machines. Note errors or damage","Machines off or in the overnight state set by the Duty Manager","Secure cash-box keys and gaming float with the Duty Manager","Record any gambling incidents in the gambling incident register","Lights and air-conditioning off as posted. Lock room, return keys","Tell the Duty Manager the room is closed and secured"]},
-{t:"Cash-up and tills",items:["Close floor to new sales. Complete or transfer open tabs","Run the Z-report on every till. Don’t skip a terminal","Take drawer to the office. Never count cash on the bar","Count, separate float, bag takings, complete the cash-up sheet","Variance over the sheet limit or unexplained: recount once, tell the Duty Manager. Don’t alter POS reports","Record comps, staff meals, walkouts. Attach dockets","Takings and float in the safe. Duty Manager confirms it is locked","Lock or power down POS and EFTPOS as posted","Sign and date the cash-up sheet. Duty Manager countersigns"]},
-{t:"Security lock-up",items:["All patrons gone. Check amenities, beer garden, function rooms, gaming room","Windows, fire exits, dock doors, bottle-shop door, main entry secure","Non-essential lights, heaters, music off. Security and exit lights stay on","CCTV recorder keeps running. Don’t unplug it","Lock office, bottle store, spirit store, gaming room, kitchen as posted","Final walk: cigarettes, smouldering bins, running taps, appliances","Verbal headcount. Nobody left locked inside","Set alarm from the office panel. Leave by staff door and check it is locked","Alarm won’t arm: find the open zone, fix if safe or call the security contractor. Stay until secure"]},
-{t:"End-of-night report (Duty Manager)",items:["Date, shift, name, trading hours actually used","Trade summary and any functions","Cash-up result for each till, EFTPOS, variance, safe locked","Staff who closed, late finishes, staff incidents","Refusals, evictions, injuries, police or security, register entry numbers","Equipment faults and stock issues / 86’d items","First jobs for the morning team. Kitchen handover attached","Notes on banned or caution patrons","Serious incident: phone the Licensee or Approved Manager before leaving"]}
-]};
+/* ---- SCREENS ---- */
+function CLs(){const[c,setC]=useLS('lk_c',{});return <><h1>Checklists</h1>{CL.map(([id,t,s])=>{const k=Object.values(c[id]||{}).filter(Boolean).length;return <a key={id} href={'#'+id} className="c" style={{display:'block',color:'inherit',textDecoration:'none'}}><b>{t}</b><Bar k={k} n={s.length}/></a>})}<button className="g full" onClick={()=>confirm('Reset all checklists for the next shift?')&&setC({})}>Reset for next shift</button><Src t="Document 01, sections 5 to 14"/></>}
+function CList({id}){const[c,setC]=useLS('lk_c',{});const l=CL.find(x=>x[0]==id),d=c[id]||{},k=Object.values(d).filter(Boolean).length;return <><p><a href="#checklists">‹ All checklists</a></p><h1>{l[1]}</h1><Bar k={k} n={l[2].length}/><div className="c">{l[2].map((t,i)=><label key={i} className={'row'+(d[i]?' done':'')}><input type="checkbox" checked={!!d[i]} onChange={()=>setC({...c,[id]:{...d,[i]:!d[i]}})}/><span><Step t={t}/></span></label>)}</div><button className="g full" onClick={()=>confirm('Reset this checklist?')&&setC({...c,[id]:{}})}>Reset this list</button><Src t="Document 01"/></>}
+function Fixes(){return <><h1>Fix it</h1>{Object.entries(FX).map(([id,f])=><a key={id} href={'#'+id} className="b g full" style={{marginBottom:10,justifyContent:'flex-start'}}>{f[0]}</a>)}<Src t="Document 04"/></>}
+function FixD({id}){const f=FX[id];return <><p><a href="#fixit">‹ Fix it</a></p><h1>{f[0]}</h1><div className="c"><ol style={{paddingLeft:22,margin:0}}>{f[1].map((t,i)=><li key={i} style={{margin:'8px 0'}}><Step t={t}/></li>)}</ol></div><div className="ban dm"><S k="dm">Duty Manager</S> Get the Duty Manager (ext. 201) now if: {f[2]}.</div><Src t="Document 04"/></>}
+function Cocktails(){return <><h1>Cocktails</h1><div className="ban dm"><S k="dm">RSA</S> Measure every pour with a jigger. Do not serve anyone you believe is intoxicated or without acceptable ID. Get the Duty Manager (Document 02).</div>{CO.map(c=><details className="c" key={c[0]}><summary>{c[0]}</summary><p><b>Glass:</b> {c[1]}<br/><b>Ice:</b> {c[2]}<br/><b>Spec:</b> {c[3]}<br/><b>Method:</b> {c[4]}<br/><b>Garnish:</b> {c[5]}</p></details>)}<Src t="Document 03"/></>}
+function Doc({id,title,groups,sos,sum}){
+ const[d,setD]=useLS('lk_'+id,{}),[lg,setLg]=useLS('lk_'+id+'_log',[]),[st,setSt]=useState(0),[pv,setPv]=useState(false);
+ const F=groups.flatMap(g=>g[1]),v=k=>d[k]||'not provided',g=groups[st],last=st==groups.length-1;
+ const save=()=>{setLg([{at:new Date().toLocaleString('en-AU'),s:sum(d),ok:false},...lg]);setD({});setSt(0);setPv(false)};
+ if(pv)return <div className="pv"><div className="wm">Draft – Duty Manager to sign</div><h1>{title}</h1><p><b>Draft – Duty Manager to review and sign before this is filed.</b></p><table><tbody>{F.map(f=><tr key={f[0]}><th>{f[1]}</th><td>{f[2]=='y'&&d[f[0]]?d[f[0]]:v(f[0])}</td></tr>)}</tbody></table><p>Duty Manager: ______________ Signature: ______________ Date/time: ________</p><div className="np"><button onClick={()=>window.print()}>Print</button> <button className="g" onClick={()=>setPv(false)}>Edit</button> <button className="g" onClick={save}>Save to log</button></div></div>;
+ return <><h1>{title}</h1>{sos&&<div className="ban sos"><S k="sos">Call 000</S> If anyone is hurt or in danger, call 000 first, then get the Duty Manager (ext. 201). Do the report later.</div>}
+ {groups.length>1&&<p>Step {st+1} of {groups.length}: <b>{g[0]}</b></p>}
+ <div className="c">{g[1].map(([k,l,t])=><div key={k}><label className="f" htmlFor={id+k}>{l}</label>{t=='a'?<textarea id={id+k} placeholder="not provided" value={d[k]||''} onChange={e=>setD({...d,[k]:e.target.value})}/>:t=='y'?<select id={id+k} value={d[k]||''} onChange={e=>setD({...d,[k]:e.target.value})}><option value="">not provided</option><option>Yes</option><option>No</option></select>:<input id={id+k} placeholder="not provided" value={d[k]||''} onChange={e=>setD({...d,[k]:e.target.value})}/>}</div>)}</div>
+ <div className="grid">{st>0?<button className="g" onClick={()=>setSt(st-1)}>Back</button>:<span/>}<button onClick={()=>last?setPv(true):setSt(st+1)}>{last?'Preview and print':'Next'}</button></div>
+ <button className="g full" onClick={()=>confirm('Clear this draft?')&&(setD({}),setSt(0))}>Clear draft</button>
+ {lg.length>0&&<h2>Saved drafts</h2>}{lg.map((e,i)=><div className="c" key={i}><b>{e.s}</b><br/><small>{e.at}</small><br/><S k={e.ok?'ok':'dm'}>{e.ok?'Reviewed':'Needs Duty Manager review'}</S><div className="grid"><button className="g" onClick={()=>setLg(lg.map((x,j)=>j==i?{...x,ok:!x.ok}:x))}>{e.ok?'Reopen':'Duty Manager reviewed'}</button><button className="g" onClick={()=>confirm('Delete this draft?')&&setLg(lg.filter((_,j)=>j!=i))}>Delete</button></div></div>)}
+ <Src t={id=='inc'?'Document 09 (draft only; Duty Manager decides the register)':'Document 11'}/></>}
+function Quiz(){
+ const[di,setDi]=useState(null),[qi,setQi]=useState(0),[ans,setAns]=useState([]),[pk,setPk]=useState(null),[so,setSo]=useLS('lk_so',[]),[nm,setNm]=useState(''),[ini,setIni]=useState(''),[sv,setSv]=useState(false);
+ const qs=di!=null?QZ[di][1]:[],fin=di!=null&&qi>=qs.length,sc=ans.filter((a,i)=>a==qs[i][2]).length,pass=sc>=4;
+ const save=()=>{setSo([...so,{n:nm,d:today(),doc:QZ[di][0],sc,r:pass?'Pass':'Retake',i:ini}]);setSv(true)};
+ return <><h1>Quiz</h1>
+ {di==null&&<>{QZ.map((q,i)=><button key={i} className="g full" style={{marginBottom:10,justifyContent:'flex-start'}} onClick={()=>{setDi(i);setQi(0);setAns([]);setPk(null);setSv(false)}}>{q[0]}</button>)}<small>Pass mark 4 out of 5 (80%).</small></>}
+ {di!=null&&!fin&&<div className="c"><p><b>{QZ[di][0]}</b> · Question {qi+1} of 5</p><p>{qs[qi][0]}</p>{qs[qi][1].map((o,i)=><button key={i} className="g full" style={{marginBottom:8,justifyContent:'flex-start',textAlign:'left'}} disabled={pk!=null} onClick={()=>setPk(i)}>{'ABCD'[i]}. {o}</button>)}
+ {pk!=null&&<><p>{pk==qs[qi][2]?<S k="ok">Right</S>:<S k="sos">Wrong</S>} Answer: {qs[qi][1][qs[qi][2]]}</p><button className="full" onClick={()=>{setAns([...ans,pk]);setPk(null);setQi(qi+1)}}>{qi==4?'See score':'Next question'}</button></>}</div>}
+ {fin&&<><div className="c"><h2>Result: {sc} out of 5 ({sc*20}%)</h2>{pass?<S k="ok">Pass</S>:<S k="dm">Retake with the Duty Manager (ext. 201)</S>}{!pass&&<p>Re-read the sections you missed in {QZ[di][0]} first.</p>}
+ <table><tbody>{qs.map((q,i)=><tr key={i}><td>{i+1}. {q[0]}</td><td>{ans[i]==q[2]?<S k="ok">Right</S>:<S k="sos">Wrong</S>}</td></tr>)}</tbody></table></div>
+ <div className="c"><b>Sign-off record</b> (Duty Manager initials every pass)<label className="f" htmlFor="qn">Staff name</label><input id="qn" value={nm} onChange={e=>setNm(e.target.value)}/><label className="f" htmlFor="qi">Duty Manager initials</label><input id="qi" value={ini} onChange={e=>setIni(e.target.value)}/><p><button className="full" disabled={!nm||sv} onClick={save}>{sv?'Saved':'Save sign-off'}</button></p></div>
+ <button className="g full" onClick={()=>setDi(null)}>Back to quiz list</button></>}
+ {so.length>0&&<><h2>Sign-off table</h2><div style={{overflowX:'auto'}}><table><thead><tr><th>Name</th><th>Date</th><th>Document</th><th>Score</th><th>Result</th><th>Initials</th></tr></thead><tbody>{so.map((r,i)=><tr key={i}><td>{r.n}</td><td>{r.d}</td><td>{r.doc.slice(0,11)}</td><td>{r.sc}/5</td><td>{r.r}</td><td>{r.i||'not provided'}</td></tr>)}</tbody></table></div><p><button onClick={()=>csv('quiz-signoff.csv',[['Staff name','Date','Document','Score (out of 5)','Pass / Retake','Duty Manager initials'],...so.map(r=>[r.n,r.d,r.doc,r.sc,r.r,r.i])])}>Export CSV</button></p></>}
+ <Src t="Document 07"/></>}
+function Gaps(){const[g,setG]=useLS('lk_gap',[]),[f,setF]=useState({date:today(),q:'',area:'other',fix:'',st:'Open'}),[fl,setFl]=useState('All');const ST=['Open','In progress','Fixed','Not needed'],set=k=>e=>setF({...f,[k]:e.target.value});
+ return <><h1>Gap log</h1><p>Log a question the assistant could not answer. No passwords, codes or guest details.</p><div className="c"><label className="f" htmlFor="gd">Date</label><input id="gd" type="date" value={f.date} onChange={set('date')}/><label className="f" htmlFor="gq">Question</label><textarea id="gq" value={f.q} onChange={set('q')}/><label className="f" htmlFor="ga">Area</label><select id="ga" value={f.area} onChange={set('area')}>{['bar','gaming','kitchen','tech','RSA','other'].map(a=><option key={a}>{a}</option>)}</select><label className="f" htmlFor="gf">Suggested fix (document to write or update)</label><input id="gf" value={f.fix} onChange={set('fix')}/><label className="f" htmlFor="gs">Status</label><select id="gs" value={f.st} onChange={set('st')}>{ST.map(a=><option key={a}>{a}</option>)}</select><p><button className="full" disabled={!f.q} onClick={()=>{setG([f,...g]);setF({...f,q:'',fix:''})}}>Add to log</button></p></div>
+ <label className="f" htmlFor="gl">Filter by status</label><select id="gl" value={fl} onChange={e=>setFl(e.target.value)}>{['All',...ST].map(a=><option key={a}>{a}</option>)}</select>
+ {g.map((e,i)=>({e,i})).filter(x=>fl=='All'||x.e.st==fl).map(({e,i})=><div className="c" key={i}><small>{e.date} · {e.area}</small><br/>{e.q}<br/><small>Fix: {e.fix||'not provided'}</small><label className="f" htmlFor={'s'+i}>Status</label><select id={'s'+i} value={e.st} onChange={x=>setG(g.map((y,j)=>j==i?{...y,st:x.target.value}:y))}>{ST.map(a=><option key={a}>{a}</option>)}</select></div>)}
+ <p><button disabled={!g.length} onClick={()=>csv('gap-log.csv',[['Date','Question','Who asked','Area','Suggested fix','Owner','Status'],...g.map(e=>[e.date,e.q,'not provided',e.area,e.fix,'not provided',e.st])])}>Export CSV</button></p><Src t="Document 08"/></>}
+const PH=[["Bar","beer 1"],["Bar","wine"],["Bar","spirit, e.g. house vodka"],["Bar","mixers and juices"],["Bar","garnishes and fresh citrus"],["Cellar","keg 1"],["Cellar","packaged beer and cider"],["Cellar","spare spirits"],["Cellar","soft drink"],["Kitchen dry store","flour, oil and similar"],["Kitchen dry store","packaging and napkins"],["Kitchen dry store","cleaning supplies"]].map(([a,p])=>({a,p:'[placeholder: '+p+']',u:'',par:'',on:''}));
+function Stock(){const[r,setR]=useLS('lk_stock',PH);const up=(i,k,v)=>setR(r.map((x,j)=>j==i?{...x,[k]:v}:x));
+ const rows=r.map(x=>{const hp=x.par!=='',ho=x.on!=='',sh=hp&&ho?Math.max(0,x.par-x.on):0;return{...x,sh,fl:!hp?'par [placeholder]':!ho?'not counted':''}}).filter(x=>x.sh>0||x.fl);
+ return <><h1>Stock count</h1><div className="ban dm"><S k="dm">Manager</S> Manager checks and sends the order. Kitchen stock is counted by the Head Chef (ext. 202). Count only what you counted; leave blank if not counted.</div>
+ {r.map((x,i)=><div className="c" key={i}><small>{x.a}</small><label className="f" htmlFor={'p'+i}>Product</label><input id={'p'+i} value={x.p} onChange={e=>up(i,'p',e.target.value)}/><div className="grid"><div><label className="f" htmlFor={'u'+i}>Unit</label><input id={'u'+i} value={x.u} placeholder="[placeholder]" onChange={e=>up(i,'u',e.target.value)}/></div><div><label className="f" htmlFor={'r'+i}>Par</label><input id={'r'+i} type="number" min="0" value={x.par} placeholder="[placeholder]" onChange={e=>up(i,'par',e.target.value)}/></div></div><label className="f" htmlFor={'o'+i}>On hand</label><input id={'o'+i} type="number" min="0" step="any" value={x.on} placeholder="not counted" onChange={e=>up(i,'on',e.target.value)}/></div>)}
+ <button className="g full" onClick={()=>setR([...r,{a:'Bar',p:'',u:'',par:'',on:''}])}>Add a row</button>
+ <h2>To order (draft)</h2><table><thead><tr><th>Product</th><th>Unit</th><th>On hand</th><th>Par</th><th>Order</th><th>Flag</th></tr></thead><tbody>{rows.map((x,i)=><tr key={i}><td>{x.p}</td><td>{x.u||'[placeholder]'}</td><td>{x.on||'not counted'}</td><td>{x.par||'[placeholder]'}</td><td>{x.fl?'–':x.sh}</td><td>{x.fl&&<S k="dm">{x.fl}</S>}</td></tr>)}</tbody></table><p><small>No prices or suppliers added. Manager to check and send.</small></p>
+ <button onClick={()=>csv('order-draft.csv',[['Area','Product','Unit','On hand','Par','Order qty','Flag'],...rows.map(x=>[x.a,x.p,x.u,x.on,x.par,x.fl?'':x.sh,x.fl])])}>Export CSV</button><Src t="Document 12"/></>}
+function Promos(){return <><h1>Screen promos</h1><div className="ban dm"><S k="dm">Manager</S> Manager approves every clip before it goes on a screen. Price is [placeholder]. No "drink fast", quantity wording, or anything aimed at minors.</div>{CO.map(c=><details className="c" key={c[0]}><summary>{c[0]}</summary><p><b>Script (15 sec)</b><br/>0–3s Hook: {c[6]}.<br/>3–7s: {c[0]}, in a {c[1].split(',')[0].toLowerCase()}.<br/>7–12s: {c[7]}.<br/>12–15s: Price [placeholder]. Ask at the bar.</p><p><b>Captions (6 words max)</b><br/>1. {c[6]}<br/>2. {c[0]}<br/>3. {c[7]}<br/>4. [Price] · Ask at the bar<br/>Also one frame: [approved responsible-service line]</p><p><b>Image prompt</b><br/>A {c[1].split(',')[0].toLowerCase()} of {c[0]} with {c[2].toLowerCase()} and {c[5].toLowerCase()}, on a bar top in warm evening light at a lakeside hotel. House colours [placeholder]. No people. No text. 15 seconds, slow camera move.</p></details>)}<p>Manager to approve before it goes on a screen.</p><Src t="Document 15, with specs from Document 03"/></>}
+const QR=[["opening-bar","Opening: bar","Bar"],["closing-bar","Closing: bar","Bar"],["cocktails","Cocktail specs","Back bar"],["eftpos","EFTPOS fault","Till area"],["pos","POS fault","Till area"],["printer","Printer fault","Till area"],["kitchen-printer","Kitchen printer fault","Kitchen pass"],["opening-kitchen","Kitchen open","Kitchen pass"],["closing-kitchen","Kitchen close","Kitchen pass"],["opening-gaming","Gaming open","Gaming station (staff side)"],["closing-gaming","Gaming close","Gaming station (staff side)"],["stock","Stock count","Cellar"],["incident","Incident draft","Office"],["handover","Handover","Office"],["gaps","Gap log","Office"],["quiz","Quiz and sign-off","Staff room"]];
+function QRs(){const b=location.href.split('#')[0];return <><h1>Quick access</h1><p>Print these links as QR codes. They open staff screens only: never put them where guests can reach them, and never put codes or passwords on them. Test monthly.</p>{QR.map(([h,l,w])=><div className="c" key={h}><b>{l}</b> <small>({w})</small><br/><code style={{wordBreak:'break-all'}}>{b+'#'+h}</code><br/><a href={'#'+h}>Open</a> <button className="g" onClick={()=>navigator.clipboard&&navigator.clipboard.writeText(b+'#'+h)}>Copy link</button></div>)}<div className="ban sos"><S k="sos">Call 000</S> Emergency: call 000 first. Do not scan or type first.</div><Src t="Document 16"/></>}
+function Help({th,setTh}){return <><h1>Help and language</h1><div className="ban sos"><S k="sos">Call 000</S> Fire, medical emergency or violence: call 000, then get the Duty Manager.</div><div className="c"><b>Other languages</b><p>Staff can ask the Claude Project in their own language. It replies in that language with the English steps alongside. RSA, safety and legal wording stays in English as the official version. Always confirm with the Duty Manager (ext. 201).</p><small>Source: Document 14</small></div><div className="c"><b>Contacts</b><p>Duty Manager ext. 201 · Kitchen ext. 202 · Gaming ext. 203</p></div><button className="full" onClick={()=>setTh(th=='dark'?'light':'dark')}>Switch to {th=='dark'?'light':'dark'} mode</button><p><small>This app supports the venue documents; it does not replace them. Not legal advice.</small></p></>}
+function More(){return <><h1>More</h1>{[['handover','📋','Handover'],['stock','📦','Stock count'],['promos','📺','Screen promos'],['gaps','❓','Gap log'],['qr','🔗','Quick access'],['help','🌐','Help and language'],['home','🏠','Home']].map(([h,i,l])=><a key={h} href={'#'+h} className="b g full" style={{marginBottom:10,justifyContent:'flex-start'}}><span aria-hidden="true">{i}</span> {l}</a>)}</>}
+function Home(){const[c]=useLS('lk_c',{}),[il]=useLS('lk_inc_log',[]);const k=Object.values(c).reduce((a,x)=>a+Object.values(x).filter(Boolean).length,0),n=CL.reduce((a,x)=>a+x[2].length,0),h=new Date().getHours(),sh=h<11?'Open shift':h<17?'Mid shift':'Close shift',op=il.filter(e=>!e.ok).length;
+ return <><div className="ban sos"><S k="sos">Call 000</S> Danger, injury or violence: call 000 first, then the Duty Manager (ext. 201).</div><div className="c"><b>{new Date().toLocaleDateString('en-AU',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</b><br/><span className="chip">{sh}</span><p style={{margin:'8px 0 4px'}}>Checklists today</p><Bar k={k} n={n}/><p style={{marginBottom:0}}>Open incident drafts: {op>0?<S k="dm">{op} need review</S>:<S k="ok">None</S>}</p></div><div className="grid">{[['opening-bar','🍺','Open bar'],['closing-bar','🌙','Close bar'],['eftpos','💳','EFTPOS fix'],['incident','📝','New incident'],['cocktails','🍸','Cocktails'],['quiz','🎓','Quiz']].map(([h,i,l])=><a key={h} href={'#'+h} className="b t"><span aria-hidden="true">{i}</span>{l}</a>)}</div></>}
 
-function Checklist(){
-  const [shift,setShift]=useState("open");
-  const [chk,setChk]=useStored("lsa-chk",{});
-  const [arm,setArm]=useState(false);
-  const secs=CL[shift];
-  const ids=secs.flatMap((s,i)=>s.items.map((_,j)=>shift+i+"-"+j));
-  const n=ids.filter(id=>chk[id]).length, pct=Math.round(100*n/ids.length);
-  const toggle=id=>setChk({...chk,[id]:!chk[id]});
-  const reset=()=>{if(!arm){setArm(true);setTimeout(()=>setArm(false),3000);return}
-    const c={...chk};ids.forEach(id=>delete c[id]);setChk(c);setArm(false)};
-  return <div>
-    <div className="seg">
-      <button className={"btn "+(shift==="open"?"gold":"")} onClick={()=>setShift("open")}>Opening</button>
-      <button className={"btn "+(shift==="close"?"gold":"")} onClick={()=>setShift("close")}>Closing</button>
-    </div>
-    <div className="pl"><span>{n} of {ids.length} done</span><span>{pct}%</span></div>
-    <div className="bar" role="progressbar" aria-valuenow={pct} aria-valuemin="0" aria-valuemax="100"><i style={{width:pct+"%"}}></i></div>
-    {secs.map((s,i)=><div className="card" key={shift+i}>
-      <h3>{s.t}</h3>
-      {s.items.map((it,j)=>{const id=shift+i+"-"+j;return <label className={"item "+(chk[id]?"done":"")} key={id}>
-        <input type="checkbox" checked={!!chk[id]} onChange={()=>toggle(id)}/><span>{it}</span></label>})}
-    </div>)}
-    <button className="btn ghost" style={{width:"100%",textAlign:"center",borderColor:arm?"var(--bad)":"var(--line)"}} onClick={reset}>{arm?"Tap again to reset "+(shift==="open"?"opening":"closing"):"Reset shift"}</button>
-    <p className="note" style={{marginTop:10}}>Short form of Document 01. Tell the Duty Manager (ext. 201) about anything that can’t be done. Don’t skip a safety, cash or lock-up step to finish faster.</p>
-  </div>;
-}
-
-/* ---------- Doc 04 ---------- */
-const FIX={
-eftpos:{label:"EFTPOS",steps:[
-{t:"Is the terminal on with the screen lit, and the cable seated at both ends (if it sits on a base)?"},
-{t:"Is there paper in the terminal and the cover closed? A paper error can look like a failed sale."},
-{t:"Is there a leftover prompt from the last sale? Cancel or complete it only if the screen clearly asks. Check the last receipt or POS sale so you don’t double-charge. Try again. Did it work?"},
-{t:"If it uses Wi-Fi or mobile: do other terminals or staff phones nearby have signal?",alt:{l:"Nothing has signal",go:"wifi"}},
-{t:"Restart the EFTPOS terminal only: power off, wait 30 seconds, power on, wait until idle. Try one test sale. Did it work?"},
-{t:"Try a different EFTPOS terminal, another bar or the office terminal. Did the sale go through?"}],
-end:["Payments may need to go cash-only. The Duty Manager decides on a backup terminal or cash-only.","Don’t keep retrying a card. Don’t reboot the network yourself.","Terminal damaged or card stuck: stop using it, put an “out of order” note on it."],
-esc:"Escalate now if payments are down on all terminals, a guest may have been charged twice, or a card is trapped."},
-wifi:{label:"Wi-Fi / network",steps:[
-{t:"Confirm what is down: EFTPOS only, POS only, kitchen printers, staff Wi-Fi, or everything. Know this before you call. Does a nearby staff device have internet?"},
-{t:"Look at the network cabinet or shelf in the office. Are lights on for the NBN/modem, router and switch? Don’t unplug anything. If there are no lights, check the power point and power-board switch. Is it back?"},
-{t:"Tell floor and kitchen that payments or tickets may be delayed. Is everything working again?"}],
-end:["Only the Duty Manager restarts network gear. Don’t do it yourself.","Backup plan: cash-only if cards are down; handwritten or walked tickets to the kitchen (ext. 202); note every sale for later entry.","The Duty Manager calls IT support from the office contact list. Staff don’t ring IT unless asked.","Don’t factory-reset anything. Don’t share the Wi-Fi admin login."],
-esc:"A network restart is needed, all POS or EFTPOS are down, or kitchen tickets have stopped."},
-printer:{label:"POS printer",steps:[
-{t:"Is the printer powered and the power point on?"},
-{t:"Open the lid. Is there paper, feeding the right way, lid closed firmly?"},
-{t:"Jammed? Turn it off, clear the jam gently (no knives), reload paper, close the lid, turn on. Did that fix it?"},
-{t:"Check the cable from printer to POS (or the network cable if it’s a network printer). Is it seated?"},
-{t:"On the POS, is this printer the selected printer for that terminal? Not sure? Don’t change settings at random: get the Duty Manager."},
-{t:"Restart the printer, wait until ready, then reprint the last receipt or docket from the POS. Did it print?"}],
-end:["Write the order or amount on a notepad and give a handwritten receipt if the guest needs one.","Don’t keep sending the same print job. It may all come out at once.","Kitchen printer not getting orders? Phone the kitchen on ext. 202, tell them tickets may be missing and walk numbered dockets to the pass."],
-esc:"Kitchen tickets have stopped, a function is in progress, or the fault lasts more than a few minutes in busy trade."},
-av:{label:"TV / AV",steps:[
-{t:"Does the screen have power? Check the wall point and whether it’s on standby."},
-{t:"Is it on the right input (HDMI 1, HDMI 2, AV)? Check the label on the bezel or remote caddy. Is there a picture now?"},
-{t:"Is the set-top or sports box on and looking normal? If frozen, restart that device and wait for it to boot. Fixed?"},
-{t:"Check the HDMI or AV cable at both ends if you can reach it safely. Don’t climb on furniture. Fixed?"},
-{t:"Picture but no sound? Check TV mute, TV volume, and whether sound goes through the music or amplifier system."}],
-end:["Get the Duty Manager if a ladder or the AV cupboard is needed. Don’t pull leads to “see what happens”.","Several screens down: the Duty Manager checks the main AV rack or splitter.","Screen used for gaming-room or statutory signage: tell the Duty Manager straight away.","Race, match or function coming up? Tell the Duty Manager early so a backup can be tried."],
-esc:"You would need a ladder, a password, or to open the AV rack."}
-};
-
-function Fix(){
-  const [p,setP]=useState(null);
-  const [i,setI]=useState(0);
-  const [res,setRes]=useState(null);
-  const start=k=>{setP(k);setI(0);setRes(null)};
-  if(!p) return <div>
-    <p className="big">What’s not working?</p>
-    <div className="grid2">{Object.keys(FIX).map(k=><button key={k} className="btn" onClick={()=>start(k)}>{FIX[k].label}</button>)}</div>
-    <div className="card"><h3>Don’t wait, call now</h3>
-      <ul><li>Payments down everywhere, or a guest may be double-charged</li><li>Kitchen tickets stopped</li><li>A sale may be missing</li><li>A password, ladder or network restart is needed</li></ul>
-      <p>Duty Manager: <b className="k">ext. 201</b> · Kitchen: <b className="k">ext. 202</b></p>
-      <p className="note">Never guess passwords, safe codes or router logins. Document 04.</p></div>
-  </div>;
-  const f=FIX[p], s=f.steps[i];
-  return <div>
-    <p className="note">{f.label} · Document 04</p>
-    {res==="fixed"&&<div className="good"><h3 style={{color:"var(--ok)"}}>Fixed</h3><p>Note the fault for the end-of-night report. If it comes back, start again.</p></div>}
-    {res==="call"&&<div>
-      <div className="call"><h3>Get the Duty Manager now</h3><p className="big" style={{margin:"4px 0"}}>Ext. <b>201</b></p>
-        <p>Say what you can see, what you’ve tried, and which terminal, printer or screen it is.</p></div>
-      <div className="card"><ul>{f.end.map((e,k)=><li key={k}>{e}</li>)}</ul></div>
-      <div className="alert"><b>Escalate now: </b>{f.esc}</div></div>}
-    {!res&&<div className="card">
-      <p className="note">Step {i+1} of {f.steps.length}</p>
-      <p className="big">{s.t}</p>
-      <div className="seg"><button className="btn gold" onClick={()=>setRes("fixed")}>Yes, fixed</button>
-        <button className="btn" onClick={()=>i+1<f.steps.length?setI(i+1):setRes("call")}>No</button></div>
-      {s.alt&&<button className="btn ghost" style={{width:"100%"}} onClick={()=>start(s.alt.go)}>{s.alt.l}: go to Wi-Fi / network</button>}
-    </div>}
-    <div className="seg"><button className="btn ghost" onClick={()=>setP(null)}>Pick another problem</button>
-      {!res&&i>0&&<button className="btn ghost" onClick={()=>setI(i-1)}>Back</button>}
-      {res&&<button className="btn ghost" onClick={()=>start(p)}>Start again</button>}</div>
-  </div>;
-}
-
-/* ---------- Doc 02 ---------- */
-const INC={
-drunk:{label:"Intoxicated patron",doc:"Document 02, sections 2–4",steps:[
-"Pause. Don’t pour the drink.",
-"Get the Duty Manager (ext. 201) for a second opinion if you can do it quickly and safely. If not, refuse first, then tell them.",
-"Speak calmly, privately if possible, not in front of a crowd.",
-"No more liquor. You may offer water, and food if appropriate.",
-"If they are intoxicated, ask them to leave. Offer help with a taxi, rideshare or sober friend.",
-"Tell nearby bar staff so nobody else serves them.",
-"Won’t leave? Use the “Patron won’t leave” steps and get the Duty Manager immediately.",
-"Record it in the liquor incident register as soon as practicable, within 24 hours."],
-say:["“I’m sorry, I can’t serve you any more alcohol tonight. It’s the law, and I have to follow it. I can get you a water, and I can help you find a way home.”"],
-note:"Intoxicated means speech, balance, co-ordination or behaviour is noticeably affected and it’s reasonable to believe it’s from drinking. Consider medical conditions, disability, injury or tiredness. Your reason must never be discriminatory. Early signs: slow service (no doubles, no shots), offer water and food, tell the Duty Manager."},
-refuse:{label:"Refused entry / ID",doc:"Document 02, sections 5–6",steps:[
-"Ask for proof of age from anyone who looks under 25.",
-"Check ID in good light. Check photo against the person, date of birth (18 or over), expiry and security features.",
-"Digital licence: don’t handle their phone. Ask them to open the official app and show you.",
-"Unsure it’s the same person, or ID looks wrong? Ask for a second acceptable document. Still unsure: refuse service and get the Duty Manager.",
-"No acceptable current ID: refuse service, and refuse entry where required.",
-"Suspect secondary supply (an adult buying for a minor)? Stop, check IDs for the whole group, get the Duty Manager.",
-"Minor found drinking, trying to buy, or using false ID: refuse, get the Duty Manager, record it.",
-"Log it. Simple door refusals go in the refuse-entry log at the back of the bound register."],
-say:["Acceptable: current photo ID showing 18+ (NSW or other Australian/overseas driver licence incl. digital, passport, NSW photo card, proof-of-age card from a public authority, Keypass).","Not acceptable: expired ID, student, Medicare or credit cards, photocopies, photos of ID on a phone."],
-note:"Minors are not permitted in the gaming room. Where a minor may be elsewhere depends on the licence: ask the Duty Manager. If in doubt, don’t let them stay and serve no liquor to that group."},
-leave:{label:"Patron won’t leave",doc:"Document 02, sections 8–9",steps:[
-"Get the Duty Manager (ext. 201) as soon as they won’t go. Don’t handle it alone.",
-"Calmly require them to leave. A second staff member should witness it.",
-"Tell them: leave now, don’t come back for 24 hours, and don’t stay within 50 metres of the venue for 6 hours, unless they need to wait safely for transport, reasonably fear for their safety, or live nearby.",
-"Offer practical help: taxi or rideshare, sober friend, or a safe spot off the premises.",
-"Still refusing, or anyone unsafe: call police. 000 if violence or immediate danger. 131 444 (Police Assistance Line) if no immediate danger and the Duty Manager agrees.",
-"Staff must not use force. Don’t grab, push or restrain. Only police, or security under the Duty Manager’s direction.",
-"Keep other patrons safe with a clear path to the exit. Don’t chase into the car park or street.",
-"Duty Manager records time, grounds, what was said, witnesses, transport offered, police. Brief door and bar so they aren’t re-admitted within 24 hours."],
-say:["“I also need to ask you to leave the premises now. You’re welcome to wait somewhere safe for a taxi or a friend, but you can’t stay on the licensed premises.”","“I know it’s frustrating. I’m not able to change this. If you don’t leave when asked, you can be fined. Let me help you get a lift home.”"],
-note:"Only the Duty Manager decides if an intoxicated person may stay while waiting for medical help or a ride."},
-injury:{label:"Injury / medical",doc:"Document 02, sections 7 and 9",steps:[
-"Make sure staff and patrons are safe.",
-"Person unconscious, badly injured, or needs urgent medical help: call 000 first.",
-"Get the Duty Manager (ext. 201) now. The first-aid kit is kept in the office (Document 05).",
-"Violence or police called: preserve the scene as far as is safe. Don’t clean away evidence unless needed for safety.",
-"Tell the Duty Manager everything you saw and did while it’s fresh.",
-"Record it in the incident register within 24 hours (injuries, first aid and patrons needing medical help are listed).",
-"Don’t discuss it on social media or with other patrons.",
-"Hurt or shaken yourself? Tell the Duty Manager before going back on the floor."],
-say:[],note:"Complaints about a fall, injury or feeling unsafe go straight to the Duty Manager (Document 06). The documents give no medical advice."}
-};
-const LOCS=["Main bar","Public bar","Dining room","Beer garden","Gaming room","Entry / door","Car park","Amenities"];
-
-function Incident(){
-  const [k,setK]=useState(null);
-  const blank={when:"",loc:"",who:"",what:"",act:"",out:"",police:"No",wit:"",staff:"",dm:"Yes"};
-  const [f,setF]=useState(blank);
-  const [copied,setCopied]=useState(false);
-  const set=(a,v)=>setF({...f,[a]:v});
-  const d=k&&INC[k];
-  const summary=useMemo(()=>k?[
-    "INCIDENT SUMMARY – The Lakeside Hotel",
-    "Type: "+d.label,
-    "Date/time: "+(f.when?f.when.replace("T"," "):"Not recorded"),
-    "Location: "+(f.loc||"Not recorded"),
-    "People involved: "+(f.who||"Not recorded"),
-    "What happened: "+(f.what||"Not recorded"),
-    "Action taken: "+(f.act||"Not recorded"),
-    "Outcome: "+(f.out||"Not recorded"),
-    "Police: "+f.police,
-    "Witnesses: "+(f.wit||"None recorded"),
-    "Duty Manager informed: "+f.dm,
-    "Entry made by: "+(f.staff||"Not recorded"),
-    "Copy into the register within 24 hours."].join("\n"):"",[k,f]);
-  const copy=()=>{
-    const done=()=>{setCopied(true);setTimeout(()=>setCopied(false),2000)};
-    try{navigator.clipboard.writeText(summary).then(done,fb)}catch(e){fb()}
-    function fb(){const t=document.createElement("textarea");t.value=summary;document.body.appendChild(t);t.select();try{document.execCommand("copy");done()}catch(e){}t.remove()}
-  };
-  if(!k) return <div>
-    <p className="big">What’s happening?</p>
-    <div className="grid2">{Object.keys(INC).map(x=><button key={x} className="btn" onClick={()=>setK(x)}>{INC[x].label}</button>)}</div>
-    <div className="call"><b>000</b> straight away for violence or serious threat, a weapon, someone unconscious or badly injured, suspected sexual assault, or if you can’t contain it safely.<br/><br/>Then get the <b>Duty Manager: ext. 201</b>.</div>
-  </div>;
-  return <div>
-    <p className="note">{d.doc}</p>
-    <div className="call"><b>Get the Duty Manager now: ext. 201.</b> Don’t guess. If unsure, stop and ask.</div>
-    <div className="card"><h3>{d.label}: steps</h3><ol>{d.steps.map((s,i)=><li key={i}>{s}</li>)}</ol>
-      {d.say.map((s,i)=><div className="say" key={i}>{s}</div>)}
-      <p className="note">{d.note}</p></div>
-    <div className="card"><h3>Incident log summary</h3>
-      <p className="note">Builds text to copy. It doesn’t replace the register entry.</p>
-      <label className="f">Date and time</label><input type="datetime-local" value={f.when} onChange={e=>set("when",e.target.value)}/>
-      <label className="f">Location</label><select value={f.loc} onChange={e=>set("loc",e.target.value)}><option value="">Choose…</option>{LOCS.map(l=><option key={l}>{l}</option>)}</select>
-      <label className="f">People involved (names or descriptions)</label><textarea value={f.who} onChange={e=>set("who",e.target.value)}/>
-      <label className="f">What happened</label><textarea value={f.what} onChange={e=>set("what",e.target.value)}/>
-      <label className="f">Action taken</label><textarea value={f.act} onChange={e=>set("act",e.target.value)}/>
-      <label className="f">Outcome</label><textarea value={f.out} onChange={e=>set("out",e.target.value)}/>
-      <label className="f">Police</label><select value={f.police} onChange={e=>set("police",e.target.value)}><option>No</option><option>Notified</option><option>Attended</option></select>
-      <label className="f">Witnesses</label><input type="text" value={f.wit} onChange={e=>set("wit",e.target.value)}/>
-      <label className="f">Duty Manager informed</label><select value={f.dm} onChange={e=>set("dm",e.target.value)}><option>Yes</option><option>Not yet</option></select>
-      <label className="f">Your name</label><input type="text" value={f.staff} onChange={e=>set("staff",e.target.value)}/>
-      <div className="sum">{summary}</div>
-      <button className="btn gold" style={{width:"100%",textAlign:"center"}} onClick={copy}>{copied?"Copied":"Copy summary"}</button>
-    </div>
-    <button className="btn ghost" onClick={()=>setK(null)}>Pick another situation</button>
-  </div>;
-}
-
-/* ---------- Doc 03 ---------- */
-const CK=[
-{n:"Margarita",g:"Coupe (straight up) or rocks. Ask the guest.",i:"Cubed ice for shaking. Fresh ice in the glass if on the rocks.",s:["50 ml blanco tequila","25 ml triple sec","25 ml fresh lime juice","10 ml sugar syrup, only if the lime is very sharp"],m:["Salt a half rim only if the guest asks","Shake hard with ice","Fine-strain (over fresh ice if on the rocks)"],ga:"Lime wheel or lime wedge"},
-{n:"Espresso Martini",g:"Coupe",i:"Cubed ice for shaking only. Serve straight up.",s:["50 ml vodka","25 ml coffee liqueur","30 ml fresh espresso","10 ml sugar syrup"],m:["Pull a fresh short espresso, let it sit a moment","Shake very hard with ice","Fine-strain. Top should have thick crema"],ga:"Three coffee beans on the crema"},
-{n:"Mojito",g:"Highball",i:"Crushed ice",s:["50 ml white rum","25 ml fresh lime juice","15 ml sugar syrup","8–10 mint leaves","Soda water, to top"],m:["Mint, lime juice, syrup in glass. Press gently, don’t shred","Add rum, fill with crushed ice, churn","Top with soda and a little more crushed ice"],ga:"Mint sprig and a lime wedge"},
-{n:"Negroni",g:"Rocks",i:"One large cube, or fresh cubed ice",s:["30 ml gin","30 ml Campari","30 ml sweet vermouth"],m:["Stir with ice until cold","Strain over fresh ice"],ga:"Orange peel: express the oils over the drink and drop it in"},
-{n:"Old Fashioned",g:"Rocks",i:"One large cube",s:["60 ml bourbon or rye (ask the guest’s preference)","10 ml sugar syrup or 1 sugar cube","2 dashes Angostura bitters"],m:["Stir with ice until cold and slightly diluted","Strain over a large cube","Sugar cube: muddle with bitters and a dash of water first, then add whisky and stir"],ga:"Orange peel, oils expressed over the drink. Cherry optional"},
-{n:"Aperol Spritz",g:"Wine glass",i:"Cubed ice, built in the glass",s:["90 ml prosecco","60 ml Aperol","30 ml soda water"],m:["Fill glass with cubed ice","Add prosecco, then Aperol, then soda","Stir gently once"],ga:"Orange slice"},
-{n:"Cosmopolitan",g:"Coupe",i:"Cubed ice for shaking only. Serve straight up.",s:["45 ml citrus vodka","15 ml triple sec","30 ml cranberry juice","15 ml fresh lime juice"],m:["Shake hard with ice","Fine-strain into the glass"],ga:"Orange peel or a lime wheel"},
-{n:"Daiquiri",g:"Coupe",i:"Cubed ice for shaking only. Serve straight up.",s:["60 ml white rum","25 ml fresh lime juice","15 ml sugar syrup"],m:["Shake hard with ice","Fine-strain into the glass"],ga:"Lime wheel (optional)"},
-{n:"Whisky Sour",g:"Rocks, or coupe if the guest wants it straight up",i:"Cubed ice. Fresh ice in the rocks glass.",s:["50 ml bourbon or rye","25 ml fresh lemon juice","15 ml sugar syrup","15 ml egg white (optional, ask the guest)","2 dashes Angostura bitters (optional, on top)"],m:["Ask about egg white. If yes, dry-shake first (no ice), then shake hard with ice. If no, skip the dry shake","Strain over fresh ice, or fine-strain into a coupe","Bitters on the foam are optional"],ga:"Lemon wheel and/or a cherry",warn:"Contains egg if used. Tell the guest, no egg for an egg allergy, and note the allergen on the ticket."},
-{n:"Piña Colada",g:"Hurricane, or a large highball if hurricane glasses are out",i:"Cubed ice, blended (shaken if the blender is down)",s:["50 ml white rum","75 ml pineapple juice","50 ml coconut cream","10 ml fresh lime juice"],m:["Blend all with a scoop of ice until smooth","Blender out of service: shake hard with ice and dump into the glass","Pour into the glass"],ga:"Pineapple wedge and a cherry. Serve with a straw"}
-];
-
-function Cocktails(){
-  const [q,setQ]=useState("");
-  const L=q.trim().toLowerCase();
-  const list=CK.filter(c=>!L||(c.n+" "+c.s.join(" ")+" "+c.g).toLowerCase().includes(L));
-  return <div>
-    <input type="search" placeholder="Search name or ingredient, e.g. rum" value={q} onChange={e=>setQ(e.target.value)} aria-label="Search cocktails"/>
-    <p className="note" style={{marginTop:10}}>Document 03. Measure every pour with a jigger. Fresh citrus, 1:1 sugar syrup. No house twists or substitutions unless a supervisor approves. RSA still applies. Stuck? Ask the Bar Supervisor or Duty Manager (ext. 201).</p>
-    {list.length===0&&<div className="card">No match. Try another word, or ask the Bar Supervisor.</div>}
-    {list.map(c=><div className="card" key={c.n}>
-      <h3>{c.n}</h3>
-      <span className="tag">{c.g}</span>
-      {c.warn&&<div className="alert">{c.warn}</div>}
-      <p style={{margin:"6px 0"}}><span className="k">Ice: </span>{c.i}</p>
-      <p className="k" style={{margin:"8px 0 0"}}>Specs</p><ul>{c.s.map((x,i)=><li key={i}>{x}</li>)}</ul>
-      <p className="k" style={{margin:"8px 0 0"}}>Method</p><ol>{c.m.map((x,i)=><li key={i}>{x}</li>)}</ol>
-      <p style={{margin:"6px 0 0"}}><span className="k">Garnish: </span>{c.ga}</p>
-    </div>)}
-  </div>;
-}
-
-/* ---------- App ---------- */
-const TABS=[["Shift Checklist",Checklist],["Fix It",Fix],["Incident Help",Incident],["Cocktail Specs",Cocktails]];
+const rt=()=>decodeURIComponent(location.hash.slice(1))||'home';
 function App(){
-  const [t,setT]=useState(0);
-  const Cmp=TABS[t][1];
-  return <div className="wrap">
-    <header><h1>Lakeside Shift Assistant</h1><p>The Lakeside Hotel · Lake Macquarie. Duty Manager ext. 201 · Kitchen ext. 202 · Gaming ext. 203</p></header>
-    <nav className="tabs">{TABS.map((x,i)=><button key={x[0]} className={i===t?"on":""} onClick={()=>setT(i)}>{x[0]}</button>)}</nav>
-    <main><Cmp/></main>
-    <footer>Built with Claude from venue documents – always follow your Duty Manager.</footer>
-  </div>;
-}
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+ const[r,setR]=useState(rt()),[th,setTh]=useLS('lk_theme','dark');
+ useEffect(()=>{const f=()=>{setR(rt());window.scrollTo(0,0)};addEventListener('hashchange',f);return()=>removeEventListener('hashchange',f)},[]);
+ useEffect(()=>{document.documentElement.dataset.theme=th},[th]);
+ const isC=CL.some(x=>x[0]==r),isF=!!FX[r];
+ const V=isC?<CList id={r}/>:isF?<FixD id={r}/>:{home:<Home/>,checklists:<CLs/>,fixit:<Fixes/>,incident:<Doc key="i" id="inc" title="Incident draft" groups={INC} sos sum={d=>(d.type||'not provided')+' · '+(d.loc||'not provided')}/>,cocktails:<Cocktails/>,quiz:<Quiz/>,more:<More/>,handover:<Doc key="h" id="ho" title="Shift handover" groups={HO} sum={d=>(d.date||'not provided')+' · '+(d.shift||'not provided')}/>,stock:<Stock/>,promos:<Promos/>,gaps:<Gaps/>,qr:<QRs/>,help:<Help th={th} setTh={setTh}/>}[r]||<Home/>;
+ const tab=isC||r=='checklists'?'checklists':isF||r=='fixit'?'fixit':['incident','cocktails','quiz'].includes(r)?r:r=='home'?'':'more';
+ return <><header><a className="w" href="#home"><svg width="28" height="20" viewBox="0 0 28 20" aria-hidden="true"><path d="M1 8q4-6 8 0t8 0t8 0M1 15q4-6 8 0t8 0t8 0" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/></svg>Lakeside <small>Hotel</small></a><button className="g" aria-label={'Switch to '+(th=='dark'?'light':'dark')+' mode'} onClick={()=>setTh(th=='dark'?'light':'dark')}>{th=='dark'?'☀️':'🌙'}</button></header><main>{V}</main>
+ <nav aria-label="Main">{[['checklists','☑️','Checklists'],['fixit','🛠️','Fix It'],['incident','📝','Incident'],['cocktails','🍸','Cocktails'],['quiz','🎓','Quiz'],['more','⋯','More']].map(([h,i,l])=><a key={h} href={'#'+h} aria-current={tab==h?'page':undefined}><span aria-hidden="true">{i}</span>{l}</a>)}</nav></>}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 </body>
 </html>
