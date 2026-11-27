@@ -30,7 +30,7 @@ A second, lighter pack for a fictional Newcastle trades business sits in [`examp
 In a new Claude Project (I used the name **Venue Ops Assistant**):
 
 1. Paste the boxed instructions from [`docs/00-Custom-Instructions.md`](docs/00-Custom-Instructions.md). Do not paste the test-questions section.
-2. Upload the six documents in `docs/` (Word or Markdown).
+2. Upload documents 01-16 in `docs/` (Word or Markdown).
 3. Ask the test questions below and check that answers cite the document and do not invent steps.
 
 ## Custom instructions (summary)
@@ -58,10 +58,20 @@ The full text is in `docs/00-Custom-Instructions.md`.
 | 04 | [POS, Network and AV Troubleshooting](docs/04-POS-Network-AV-Troubleshooting.md) | EFTPOS, printers, Wi-Fi, screens — and when to stop |
 | 05 | [New Starter Induction](docs/05-New-Starter-Induction.md) | First shift, uniform, who to ask |
 | 06 | [Customer Complaints and Service Recovery](docs/06-Customer-Complaints-and-Service-Recovery.md) | Complaints, comps, Duty Manager sign-off |
+| 07 | [07-Training-Quiz-and-Sign-off.md](docs/07-Training-Quiz-and-Sign-off.md) | Training quiz and sign-off for documents 01–06 |
+| 08 | [08-Unanswered-Questions-Log.md](docs/08-Unanswered-Questions-Log.md) | Log of questions the assistant could not answer |
+| 09 | [09-Incident-Report-Draft-Template.md](docs/09-Incident-Report-Draft-Template.md) | Incident report draft for Duty Manager review |
+| 10 | [10-Google-Review-Reply-Guide.md](docs/10-Google-Review-Reply-Guide.md) | Short, consistent replies to public Google reviews |
+| 11 | [11-Shift-Handover-Summary.md](docs/11-Shift-Handover-Summary.md) | One-page handover from one shift to the next |
+| 12 | [12-Stock-and-Ordering-Guide.md](docs/12-Stock-and-Ordering-Guide.md) | End-of-night stock count, par levels and order drafts |
+| 13 | [13-Weekly-Sales-Summary-Guide.md](docs/13-Weekly-Sales-Summary-Guide.md) | Weekly POS sales summary for the manager |
+| 14 | [14-Multilingual-Staff-Answers.md](docs/14-Multilingual-Staff-Answers.md) | How the assistant answers staff in other languages |
+| 15 | [15-Screen-Promo-Content-Guide.md](docs/15-Screen-Promo-Content-Guide.md) | Short promo clips for venue TV screens |
+| 16 | [16-QR-Codes-and-Quick-Access.md](docs/16-QR-Codes-and-Quick-Access.md) | QR codes and hands-free access to procedures |
 
 Word copies of documents 01–06 are in the same folder.
 
-Documents 07–16 (quiz and sign-off, unanswered-questions log, incident draft template, review replies, handover, stock and ordering, weekly sales summary, other-language answers, screen promos, and QR access) were added in the Venue Ops Assistant Claude Project. They are not in this `docs/` folder yet. The v2 on-shift app already has screens for that material.
+Documents 07–16 (quiz and sign-off, unanswered-questions log, incident draft template, review replies, handover, stock and ordering, weekly sales summary, other-language answers, screen promos, and QR access) are in `docs/`. The v2 on-shift app already has screens for that material.
 
 ## Test questions
 
