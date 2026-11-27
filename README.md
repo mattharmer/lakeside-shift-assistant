@@ -97,7 +97,7 @@ It includes:
 - Nine opening and closing checklists with progress bars, strike-through ticks, and a confirmed reset for the next shift
 - Step-by-step POS / network / AV fixes, with a clear stop if a password, ladder or rack access is needed
 - An incident-report draft, with a "Draft – Duty Manager to sign" print watermark
-- House cocktail specs (the full ten from Document 03)
+- House cocktail specs (the full ten from Document 03, wording as on the spec sheet)
 - A training quiz
 - A gap log for questions the assistant could not answer
 - Shift handover drafts
@@ -110,8 +110,8 @@ It includes:
 
 - Quiz answers show the correct option but not the document section citation
 - There is no RSA refusal-wording or ID-check screen; the app points staff to Document 02 and the Duty Manager (ext. 201)
-- Incident and handover print views use the browser print dialog; page breaks have not been tuned
-- Checklist and fix-it wording is a shortened form of Documents 01 and 04, not word for word
+- Incident and handover print views use the browser print dialog; the watermark is contained so the page does not clip. Page breaks are still basic
+- Checklist and Fix It wording is a shortened form of Documents 01 and 04, not word for word
 
 **To try it locally:** from this folder, run `python3 -m http.server 8080` and open http://localhost:8080/. It needs a network connection for the CDN scripts. Opening the file directly (`file://`) can fail in some browsers.
 
@@ -126,7 +126,7 @@ What this pack is meant to show, not a claim about a live hotel rollout:
 - The same documents can drive both a Claude Project and a simple app
 - The method is not limited to hospitality — see the trades example
 
-I have also used Cocktail Harvest content, with the Toronto Hotel logo only, as short cocktail videos on the venue screens at work to help lift cocktail sales. That is a separate, live-venue example of applied content; sales results should be added only if I confirm them ([X% / anecdote from Matt]).
+I have also used Cocktail Harvest content, with the Toronto Hotel logo only, as short cocktail videos on the venue screens at work to help lift cocktail sales. That is a separate, live-venue example of applied content; sales results should be added only if I confirm them.
 
 ## What this shows for a client-manager role
 
