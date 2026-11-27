@@ -10,7 +10,7 @@ Show how to count stock at the end of the night, compare it to par levels, and d
 ## 2. Rules
 
 1. Use only counts that staff actually took. Write **not counted** for anything missed. Do not estimate.
-2. Do not invent products, quantities, prices or suppliers. All items below are [placeholder] until the manager fills them in.
+2. Do not invent products, quantities, prices or suppliers. The rows below are generic examples until the manager sets the venue's own list.
 3. Spirit store and cool room access follow Document 05, section 6 and Document 01. Do not ask for codes.
 4. Count with a second person where possible.
 5. Report any shortfall, breakage or suspected loss to the Duty Manager (ext. 201). Do not adjust counts to match.
@@ -31,22 +31,22 @@ Do this after last drinks and tidy-up, before lock-up (Document 01, sections 11 
 
 ## 4. Par levels
 
-Par is the amount the venue wants on hand after the count. The manager sets these.
+Par is the amount the venue wants on hand after the count. The manager sets these. These product names are generic examples until the manager sets the venue's own list. No prices.
 
 | Area | Product | Unit | Par level | Supplier area | Notes |
 |---|---|---|---|---|---|
-| Bar | [placeholder: beer 1] | [placeholder] | [placeholder] | [placeholder] | |
-| Bar | [placeholder: wine] | [placeholder] | [placeholder] | [placeholder] | |
-| Bar | [placeholder: spirit, for example house vodka] | [placeholder] | [placeholder] | [placeholder] | |
-| Bar | [placeholder: mixers and juices] | [placeholder] | [placeholder] | [placeholder] | |
-| Bar | [placeholder: garnishes and fresh citrus] | [placeholder] | [placeholder] | [placeholder] | |
-| Cellar | [placeholder: keg 1] | [placeholder] | [placeholder] | [placeholder] | |
-| Cellar | [placeholder: packaged beer and cider] | [placeholder] | [placeholder] | [placeholder] | |
-| Cellar | [placeholder: spare spirits] | [placeholder] | [placeholder] | [placeholder] | |
-| Cellar | [placeholder: soft drink] | [placeholder] | [placeholder] | [placeholder] | |
-| Kitchen dry store | [placeholder: flour, oil and similar] | [placeholder] | [placeholder] | [placeholder] | |
-| Kitchen dry store | [placeholder: packaging and napkins] | [placeholder] | [placeholder] | [placeholder] | |
-| Kitchen dry store | [placeholder: cleaning supplies] | [placeholder] | [placeholder] | [placeholder] | |
+| Bar | Draught lager keg | keg | | | |
+| Bar | House red wine | bottle | | | |
+| Bar | House vodka | 700 ml | | | |
+| Bar | Mixers and juices | bottle | | | |
+| Bar | Garnishes and fresh citrus | each | | | |
+| Cellar | Draught pale ale keg | keg | | | |
+| Cellar | Packaged beer and cider | case | | | |
+| Cellar | Spare spirits | bottle | | | |
+| Cellar | Soft drink | case | | | |
+| Kitchen dry store | Cooking oil | bottle | | | |
+| Kitchen dry store | Paper napkins | pack | | | |
+| Kitchen dry store | Cleaning supplies | pack | | | |
 
 Add rows as needed. Add the cocktail ingredients from Document 03 that the venue stocks.
 
@@ -68,7 +68,7 @@ If on hand is at or above par, short by is 0. Do not order.
 4. List product, unit, and quantity to order. Round up to full cases or kegs only if the manager's par table says so.
 5. Add any run-outs and 86'd items the team reported.
 6. Flag anything not counted, damaged, or unclear.
-7. Do not add prices. Prices are [placeholder] and come from the supplier price list the manager holds.
+7. Do not add prices. Prices come from the supplier price list the manager holds.
 8. Hand the draft to the manager.
 9. ⚠️ **The manager checks the draft, changes it if needed, and sends the order.** Do not send it to a supplier yourself.
 
@@ -76,7 +76,7 @@ If on hand is at or above par, short by is 0. Do not order.
 
 | Supplier area | Product | Unit | On hand | Par | Order qty | Flag |
 |---|---|---|---|---|---|---|
-| [placeholder] | | | | | | |
+| | | | | | | |
 | | | | | | | |
 
 **Manager to check and send.**

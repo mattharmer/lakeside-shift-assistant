@@ -5,7 +5,7 @@ Version 1.0 | November 2026 · Internal use only
 
 ## 1. Purpose
 
-When the Venue Ops Assistant cannot answer from Documents 01 to 07, it sends the staff member to the Duty Manager (ext. 201). This log records those questions. Patterns show the owner which procedure to write or fix next.
+When the Venue Ops Assistant cannot answer from the uploaded venue documents (01 to 16), it sends the staff member to the Duty Manager (ext. 201). This log records those questions. Patterns show the owner which procedure to write or fix next.
 
 ## 2. Who keeps it
 
