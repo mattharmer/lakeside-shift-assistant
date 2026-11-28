@@ -87,18 +87,19 @@ If an answer invents a step that is not in the documents, tighten the custom ins
 
 ## The on-shift app
 
-[`index.html`](index.html) is a single-file **v2** app (React 18.3.1 and Babel Standalone 7.24.7 from [cdnjs](https://cdnjs.cloudflare.com/), no Google Fonts). It runs in a browser, defaults to dark mode (the toggle is saved in `localStorage`), and keeps checklist and draft state in `localStorage`. There are no API keys and no backend. The previous single-file app is kept as [`index-v1.html`](index-v1.html).
+[`index.html`](index.html) is a single-file **v2** app (React 18.3.1 and Babel Standalone 7.24.7 from [cdnjs](https://cdnjs.cloudflare.com/), no Google Fonts). It runs in a browser, defaults to dark mode (the toggle is saved in `localStorage`), and keeps checklist and draft state in `localStorage`. There is no API key in the page: live Ask answers go through an optional Cloudflare Worker. The previous single-file app is kept as [`index-v1.html`](index-v1.html).
 
 It includes:
 
 - A mobile-first home dashboard with today's date, a shift chip, checklist progress and open incident drafts
 - Dark and light mode
-- Bottom navigation (Checklists, Fix It, Incident, Cocktails, Quiz, More)
+- Bottom navigation (Checklists, Fix It, Incident, Cocktails, Ask, More)
 - Nine opening and closing checklists with progress bars, strike-through ticks, and a confirmed reset for the next shift
 - Step-by-step POS / network / AV fixes, with a clear stop if a password, ladder or rack access is needed
 - An incident-report draft, with a "Draft – Duty Manager to sign" print watermark
 - House cocktail specs (the full ten from Document 03, wording as on the spec sheet)
-- A training quiz
+- An **Ask the assistant** screen (`#ask`) that can call a Cloudflare Worker for live, document-only answers
+- A training quiz (under More)
 - A gap log for questions the assistant could not answer
 - Shift handover drafts
 - A stock count
@@ -116,6 +117,61 @@ It includes:
 **To try it locally:** from this folder, run `python3 -m http.server 8080` and open http://localhost:8080/. It needs a network connection for the CDN scripts. Opening the file directly (`file://`) can fail in some browsers.
 
 **GitHub Pages:** already enabled on this repository (site root). The empty `.nojekyll` file is there so Pages serves the site as-is. The live app updates when `index.html` is merged to `main`.
+
+## Ask the assistant (live AI)
+
+The on-shift app can ask a live model. The browser never holds an API key.
+
+```
+GitHub Pages (index.html)
+        POST { question, history? }
+                ↓
+  Cloudflare Worker  (worker/)  POST /ask
+                ↓
+  Anthropic Messages API (Claude, key stored as a Worker secret)
+                ↓
+        { answer, sources[] }
+```
+
+`ASK_URL` at the top of `index.html` is the Worker URL. Leave it empty until the Worker is deployed: the Ask screen then shows **The live assistant is offline. Try the Claude Project demo** and the rest of the app still works. The Worker only answers from the bundled Lakeside documents, cites the document, sends uncovered questions to the Duty Manager (ext. 201), and says to call 000 first if someone is in danger.
+
+Worker details, limits, and local tests are in [`worker/README.md`](worker/README.md).
+
+### Deploy the Worker (no code required after this)
+
+Do not skip the spend limit. This is a demo, not a free chatbot.
+
+1. Create a free [Cloudflare account](https://dash.cloudflare.com/sign-up) and an [Anthropic](https://console.anthropic.com/) API key.
+2. In the Anthropic console, set a **monthly spend limit** so a busy demo cannot run away with cost.
+3. On your computer:
+   ```bash
+   npm i -g wrangler
+   wrangler login
+   cd worker
+   npm install
+   npm run build
+   ```
+4. Create the KV namespace used for the 50/day per-IP cap and the global daily cap, then paste the printed id into `worker/wrangler.toml` (`ASK_LIMITS`):
+   ```bash
+   npx wrangler kv namespace create ASK_LIMITS
+   ```
+5. Store the key on Cloudflare (you will be prompted; it never goes in the repo):
+   ```bash
+   npx wrangler secret put ANTHROPIC_API_KEY
+   ```
+6. Deploy:
+   ```bash
+   npx wrangler deploy
+   ```
+7. Copy the `*.workers.dev` URL Wrangler prints and paste it into `ASK_URL` at the top of `index.html` (no trailing slash). Commit that change when you want the live GitHub Pages app to call the Worker.
+
+The Worker allows browser calls only from `https://mattharmer.github.io` and `http://localhost:8080`.
+
+### Cost
+
+Each question sends the venue documents to Anthropic. Repeat questions are cheaper once Anthropic’s **prompt cache** has the docs block, but you should still assume there is a cost. Check [Anthropic’s current pricing](https://docs.anthropic.com/en/docs/about-claude/pricing) for the model in `worker/wrangler.toml` (`ANTHROPIC_MODEL`, default Claude Haiku). Cloudflare Workers has its own free tier and paid limits — check Cloudflare’s current Workers pricing if the demo is used a lot.
+
+Do not hardcode an API key in `index.html` or in this repository.
 
 ## Results
 

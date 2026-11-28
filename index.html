@@ -56,6 +56,15 @@ main{max-width:none;margin:0;padding:10mm;overflow:visible}
 .pv .wm{color:rgba(160,0,0,.18)!important;background:transparent!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* Ask screen */
+.ask-note{font-size:13px;line-height:1.4;margin:0 0 12px;color:var(--mu)}
+.ask-sug{display:flex;flex-direction:column;gap:8px;margin:0 0 12px}
+.ask-thread{display:flex;flex-direction:column;gap:10px;margin-bottom:12px;min-height:8px}
+.ask-bubble{border-radius:16px;padding:12px 14px;max-width:92%;overflow-wrap:anywhere}
+.ask-bubble.user{align-self:flex-end;background:var(--ac);color:var(--ax)}
+.ask-bubble.assistant{align-self:flex-start;background:var(--cd);border:1px solid var(--bd)}
+.ask-srcs{margin-top:8px}
+.ask-wait{color:var(--mu);font-style:italic;margin:0}
 </style>
 </head>
 <body>
@@ -65,6 +74,8 @@ main{max-width:none;margin:0;padding:10mm;overflow:visible}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
 <script type="text/babel">
 const {useState,useEffect}=React;
+/* Paste the workers.dev URL here (no trailing slash). Leave empty if the Worker is not deployed. */
+const ASK_URL="";
 const useLS=(k,d)=>{const[v,s]=useState(()=>{try{const x=localStorage.getItem(k);return x?JSON.parse(x):d}catch(e){return d}});useEffect(()=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},[v]);return[v,s]};
 const csv=(n,rows)=>{const t=rows.map(r=>r.map(c=>'"'+String(c==null?'':c).replace(/"/g,'""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download=n;a.click()};
 const ICON={ok:'✔',dm:'⚠️',sos:'🚨'};
@@ -167,8 +178,45 @@ function Stock(){const[r,setR]=useLS('lk_stock_v2',PH);const up=(i,k,v)=>setR(r.
 function Promos(){return <><h1>Screen promos</h1><div className="ban dm"><S k="dm">Manager</S> Manager approves every clip before it goes on a screen. Price not set. No "drink fast", quantity wording, or anything aimed at minors.</div>{CO.map(c=><details className="c" key={c[0]}><summary>{c[0]}</summary><p><b>Script (15 sec)</b><br/>0–3s Hook: {c[6]}.<br/>3–7s: {c[0]}, in a {c[8]}.<br/>7–12s: {c[7]}.<br/>12–15s: Price not set. Ask at the bar.</p><p><b>Captions (6 words max)</b><br/>1. {c[6]}<br/>2. {c[0]}<br/>3. {c[7]}<br/>4. Price not set · Ask at the bar<br/>Also one frame: responsible-service line not set</p><p><b>Image prompt</b><br/>A {c[8]} of {c[0]} with {c[2]} and {c[5]} on a bar top in warm evening light at a lakeside hotel. House colours not set. No people. No text. 15 seconds, slow camera move.</p></details>)}<p>Manager to approve before it goes on a screen.</p><Src t="Document 15, with specs from Document 03"/></>}
 const QR=[["opening-bar","Opening: bar","Bar"],["closing-bar","Closing: bar","Bar"],["cocktails","Cocktail specs","Back bar"],["eftpos","EFTPOS fault","Till area"],["pos","POS fault","Till area"],["printer","Printer fault","Till area"],["kitchen-printer","Kitchen printer fault","Kitchen pass"],["opening-kitchen","Kitchen open","Kitchen pass"],["closing-kitchen","Kitchen close","Kitchen pass"],["opening-gaming","Gaming open","Gaming station (staff side)"],["closing-gaming","Gaming close","Gaming station (staff side)"],["stock","Stock count","Cellar"],["incident","Incident draft","Office"],["handover","Handover","Office"],["gaps","Gap log","Office"],["quiz","Quiz and sign-off","Staff room"]];
 function QRs(){const b=location.href.split('#')[0];return <><h1>Quick access</h1><p>Print these links as QR codes. They open staff screens only: never put them where guests can reach them, and never put codes or passwords on them. Test monthly.</p>{QR.map(([h,l,w])=><div className="c" key={h}><b>{l}</b> <small>({w})</small><br/><code style={{wordBreak:'break-all'}}>{b+'#'+h}</code><br/><a href={'#'+h}>Open</a> <button className="g" onClick={()=>navigator.clipboard&&navigator.clipboard.writeText(b+'#'+h)}>Copy link</button></div>)}<div className="ban sos"><S k="sos">Call 000</S> Emergency: call 000 first. Do not scan or type first.</div><Src t="Document 16"/></>}
+const ASK_TIPS=[["EFTPOS won't connect","The EFTPOS terminal won't connect. What do I check?"],["Refusal process","Someone has been refused service and won't leave. What is the process?"],["Espresso Martini spec","What is the house spec for an Espresso Martini?"],["Close checklist for a new starter","Write tonight's close checklist for a new starter on the bar."]];
+const ASK_OFFLINE="The live assistant is offline. Try the Claude Project demo";
+function Ask(){
+ const[q,setQ]=useState(''),[msgs,setMsgs]=useState([]),[busy,setBusy]=useState(false),[note,setNote]=useState(ASK_URL?'':ASK_OFFLINE);
+ const send=async(text)=>{
+  const question=String(text??q).trim();
+  if(!question||busy)return;
+  if(!ASK_URL){setNote(ASK_OFFLINE);return;}
+  const history=msgs.map(m=>({role:m.role,content:m.content}));
+  const next=[...msgs,{role:'user',content:question}];
+  setMsgs(next);setQ('');setBusy(true);setNote('');
+  try{
+   const r=await fetch(String(ASK_URL).replace(/\/$/,'')+'/ask',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({question,history})});
+   const data=await r.json().catch(()=>({}));
+   if(!r.ok){
+    if(r.status>=500){setNote(ASK_OFFLINE);}
+    else setMsgs([...next,{role:'assistant',content:data.error||ASK_OFFLINE,sources:[]}]);
+   }else setMsgs([...next,{role:'assistant',content:data.answer||'',sources:data.sources||[]}]);
+  }catch(e){setNote(ASK_OFFLINE);}
+  setBusy(false);
+ };
+ return <><h1>Ask the assistant</h1>
+  <p className="ask-note">Live AI demo: answers come only from the Lakeside documents. Fictional venue.</p>
+  {note&&<div className="ban dm" role="status">{note}</div>}
+  <form className="c" aria-busy={busy?'true':'false'} onSubmit={e=>{e.preventDefault();send();}}>
+   <label className="f" htmlFor="ask-q">Question</label>
+   <textarea id="ask-q" name="question" rows="3" maxLength="500" autoComplete="off" value={q} onChange={e=>setQ(e.target.value)} disabled={busy} placeholder="Ask from the venue documents…" aria-describedby="ask-hint"/>
+   <small id="ask-hint">{q.length}/500</small>
+   <p><button className="full" type="submit" disabled={busy||!q.trim()}>{busy?'Asking…':'Ask'}</button></p>
+  </form>
+  {msgs.length===0&&<div className="ask-sug">{ASK_TIPS.map(([l,v])=><button key={l} className="g full" style={{justifyContent:'flex-start',textAlign:'left'}} type="button" onClick={()=>send(v)} disabled={busy}>{l}</button>)}</div>}
+  <div className="ask-thread" id="ask-answer-live" aria-live="polite" aria-atomic="false">
+   {msgs.map((m,i)=><div key={i} className={'ask-bubble '+m.role}><div style={{whiteSpace:'pre-wrap'}}>{m.content}</div>{!!(m.sources&&m.sources.length)&&<div className="ask-srcs">{m.sources.map(s=><span className="chip" key={s}>{s}</span>)}</div>}</div>)}
+   {busy&&<p className="ask-wait">Asking the assistant…</p>}
+  </div>
+  <Src t="Documents 00–16, via the Ask Worker when ASK_URL is set"/></>;
+}
 function Help({th,setTh}){return <><h1>Help and language</h1><div className="ban sos"><S k="sos">Call 000</S> Fire, medical emergency or violence: call 000, then get the Duty Manager.</div><div className="c"><b>Other languages</b><p>Staff can ask the Claude Project in their own language. It replies in that language with the English steps alongside. RSA, safety and legal wording stays in English as the official version. Always confirm with the Duty Manager (ext. 201).</p><small>Source: <a href="docs/14-Multilingual-Staff-Answers.md">Document 14</a></small></div><div className="c"><b>Contacts</b><p>Duty Manager ext. 201 · Kitchen ext. 202 · Gaming ext. 203</p></div><button className="full" onClick={()=>setTh(th=='dark'?'light':'dark')}>Switch to {th=='dark'?'light':'dark'} mode</button><p><small>This app supports the venue documents; it does not replace them. Not legal advice.</small></p></>}
-function More(){return <><h1>More</h1>{[['handover','📋','Handover'],['stock','📦','Stock count'],['promos','📺','Screen promos'],['gaps','❓','Gap log'],['qr','🔗','Quick access'],['help','🌐','Help and language'],['home','🏠','Home']].map(([h,i,l])=><a key={h} href={'#'+h} className="b g full" style={{marginBottom:10,justifyContent:'flex-start'}}><span aria-hidden="true">{i}</span> {l}</a>)}</>}
+function More(){return <><h1>More</h1>{[['quiz','🎓','Quiz'],['handover','📋','Handover'],['stock','📦','Stock count'],['promos','📺','Screen promos'],['gaps','❓','Gap log'],['qr','🔗','Quick access'],['help','🌐','Help and language'],['home','🏠','Home']].map(([h,i,l])=><a key={h} href={'#'+h} className="b g full" style={{marginBottom:10,justifyContent:'flex-start'}}><span aria-hidden="true">{i}</span> {l}</a>)}</>}
 function Home(){const[c]=useLS('lk_c',{}),[il]=useLS('lk_inc_log',[]);const k=Object.values(c).reduce((a,x)=>a+Object.values(x).filter(Boolean).length,0),n=CL.reduce((a,x)=>a+x[2].length,0),h=hourSyd(),sh=h<11?'Open shift':h<17?'Mid shift':'Close shift',op=il.filter(e=>!e.ok).length;
  return <><div className="ban sos"><S k="sos">Call 000</S> Danger, injury or violence: call 000 first, then the Duty Manager (ext. 201).</div><div className="c"><b>{todayLong()}</b><br/><span className="chip">{sh}</span><p style={{margin:'8px 0 4px'}}>Checklists today</p><Bar k={k} n={n}/><p style={{marginBottom:0}}>Open incident drafts: {op>0?<S k="dm">{op} need review</S>:<S k="ok">None</S>}</p></div><div className="grid">{[['opening-bar','🍺','Open bar'],['closing-bar','🌙','Close bar'],['eftpos','💳','EFTPOS fix'],['incident','📝','New incident'],['cocktails','🍸','Cocktails'],['quiz','🎓','Quiz']].map(([h,i,l])=><a key={h} href={'#'+h} className="b t"><span aria-hidden="true">{i}</span>{l}</a>)}</div></>}
 
@@ -178,10 +226,10 @@ function App(){
  useEffect(()=>{const f=()=>{setR(rt());window.scrollTo(0,0)};addEventListener('hashchange',f);return()=>removeEventListener('hashchange',f)},[]);
  useEffect(()=>{document.documentElement.dataset.theme=th},[th]);
  const isC=CL.some(x=>x[0]==r),isF=!!FX[r];
- const V=isC?<CList id={r}/>:isF?<FixD id={r}/>:{home:<Home/>,checklists:<CLs/>,fixit:<Fixes/>,incident:<Doc key="i" id="inc" title="Incident draft" groups={INC} sos sum={d=>(d.type||'not provided')+' · '+(d.loc||'not provided')}/>,cocktails:<Cocktails/>,quiz:<Quiz/>,more:<More/>,handover:<Doc key="h" id="ho" title="Shift handover" groups={HO} sum={d=>(d.date||'not provided')+' · '+(d.shift||'not provided')}/>,stock:<Stock/>,promos:<Promos/>,gaps:<Gaps/>,qr:<QRs/>,help:<Help th={th} setTh={setTh}/>}[r]||<Home/>;
- const tab=isC||r=='checklists'?'checklists':isF||r=='fixit'?'fixit':['incident','cocktails','quiz'].includes(r)?r:r=='home'?'':'more';
+  const V=isC?<CList id={r}/>:isF?<FixD id={r}/>:{home:<Home/>,checklists:<CLs/>,fixit:<Fixes/>,incident:<Doc key="i" id="inc" title="Incident draft" groups={INC} sos sum={d=>(d.type||'not provided')+' · '+(d.loc||'not provided')}/>,cocktails:<Cocktails/>,ask:<Ask/>,quiz:<Quiz/>,more:<More/>,handover:<Doc key="h" id="ho" title="Shift handover" groups={HO} sum={d=>(d.date||'not provided')+' · '+(d.shift||'not provided')}/>,stock:<Stock/>,promos:<Promos/>,gaps:<Gaps/>,qr:<QRs/>,help:<Help th={th} setTh={setTh}/>}[r]||<Home/>;
+  const tab=isC||r=='checklists'?'checklists':isF||r=='fixit'?'fixit':['incident','cocktails','ask'].includes(r)?r:r=='home'?'':'more';
  return <><a className="skip" href="#content" onClick={e=>{e.preventDefault();const m=document.getElementById('content');if(m)m.focus()}}>Skip to content</a><div className="top"><header><a className="w" href="#home"><svg width="28" height="20" viewBox="0 0 28 20" aria-hidden="true"><path d="M1 8q4-6 8 0t8 0t8 0M1 15q4-6 8 0t8 0t8 0" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/></svg>Lakeside <small>Hotel</small></a><button className="g" aria-label={'Switch to '+(th=='dark'?'light':'dark')+' mode'} onClick={()=>setTh(th=='dark'?'light':'dark')}>{th=='dark'?'☀️':'🌙'}</button></header><div className="disc">Demonstration app for a fictional venue. The Lakeside Hotel is not a real hotel.</div></div><main id="content" tabIndex="-1">{V}</main>
- <nav aria-label="Main">{[['checklists','☑️','Checklists'],['fixit','🛠️','Fix It'],['incident','📝','Incident'],['cocktails','🍸','Cocktails'],['quiz','🎓','Quiz'],['more','⋯','More']].map(([h,i,l])=><a key={h} href={'#'+h} aria-current={tab==h?'page':undefined}><span aria-hidden="true">{i}</span>{l}</a>)}</nav></>}
+ <nav aria-label="Main">{[['checklists','☑️','Checklists'],['fixit','🛠️','Fix It'],['incident','📝','Incident'],['cocktails','🍸','Cocktails'],['ask','💬','Ask'],['more','⋯','More']].map(([h,i,l])=><a key={h} href={'#'+h} aria-current={tab==h?'page':undefined}><span aria-hidden="true">{i}</span>{l}</a>)}</nav></>}
 ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 </body>

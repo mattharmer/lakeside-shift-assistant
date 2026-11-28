@@ -1,0 +1,33 @@
+name = "lakeside-ask-assistant"
+main = "src/index.js"
+compatibility_date = "2025-10-11"
+
+# Public config (not secrets). Change the model here if Anthropic retires the default.
+[vars]
+ANTHROPIC_MODEL = "claude-haiku-5-5"
+ANTHROPIC_BASE_URL = "https://api.anthropic.com"
+QUESTION_MAX_CHARS = "500"
+MAX_TOKENS = "600"
+# Per-IP daily cap (UTC day). Per-minute cap is the Rate Limiting binding below.
+IP_DAILY_LIMIT = "50"
+# Whole-demo daily cap (UTC day) across every IP.
+GLOBAL_DAILY_CAP = "200"
+
+# 10 asks per IP per 60 seconds, per Cloudflare location.
+# The Rate Limiting API only supports 10s or 60s windows, so the 50/day
+# cap is enforced with the ASK_LIMITS KV namespace instead.
+[[ratelimits]]
+name = "ASK_PER_MINUTE"
+namespace_id = "7011"
+
+  [ratelimits.simple]
+  limit = 10
+  period = 60
+
+# Daily counters. Local `wrangler dev` uses this id as a local KV.
+# Before a real deploy, create a namespace and paste its id:
+#   npx wrangler kv namespace create ASK_LIMITS
+[[kv_namespaces]]
+binding = "ASK_LIMITS"
+id = "00000000000000000000000000000001"
+preview_id = "00000000000000000000000000000002"
